@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.lorescianatico</groupId>
-	<artifactId>spring.chain</artifactId>
+	<artifactId>spring.chain-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 
-	<name>spring.chain</name>
+	<name>spring.chain.parent</name>
 	<description>Project for Spring Boot Chain of Responsibility</description>
 
 	<parent>
@@ -45,10 +45,6 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.7.6.201602180812</version>
@@ -76,5 +72,9 @@
 		</plugins>
 	</build>
 
+	<modules>
+		<module>spring.chain.engine</module>
+		<module>spring.chain.poc</module>
+	</modules>
 
 </project>
