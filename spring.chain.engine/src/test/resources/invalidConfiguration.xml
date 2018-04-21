@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<catalog>
+    <chain>
+        <handlerList>
+            <handler handlerName="This is a name">com.lorescianatico.chain.handler.DummyHandler</handler>
+        </handlerList>
+    </chain>
+</catalog>
