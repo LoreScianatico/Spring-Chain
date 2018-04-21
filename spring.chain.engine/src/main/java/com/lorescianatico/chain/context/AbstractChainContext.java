@@ -10,6 +10,9 @@ import lombok.Setter;
 @Setter
 public abstract class AbstractChainContext {
 
+    /**
+     * Name of the last chain handler executed on this field
+     */
     private String lastExecutedHandler;
 
 }
