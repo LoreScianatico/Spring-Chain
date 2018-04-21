@@ -25,16 +25,32 @@ import java.io.InputStream;
 @Slf4j
 public final class CatalogHolder {
 
+    /**
+     * Schema definition
+     */
     private static final String SCHEMA = "/catalog.xsd";
 
+    /**
+     * Catalog holder instance
+     */
     private static CatalogHolder ourInstance = new CatalogHolder();
 
+    /**
+     * Gets the catalog holder instance
+     * @return catalog holder
+     */
     public static CatalogHolder getInstance() {
         return ourInstance;
     }
 
+    /**
+     * The read catalog
+     */
     private Catalog catalog;
 
+    /**
+     * Private constructor
+     */
     private CatalogHolder() {}
 
     /**
@@ -52,11 +68,18 @@ public final class CatalogHolder {
         return catalog;
     }
 
+    /**
+     * Drops the current catalog
+     */
     @Synchronized
     public void dropCatalog(){
         catalog=null;
     }
 
+    /**
+     * Verify that catalog configuration is compliant with the catalog schema
+     * @param sourceFile the catalog to be verified
+     */
     private void verifyCatalog(String sourceFile) {
         logger.debug("Validating catalog file: " + sourceFile);
         try (InputStream xml = new FileInputStream(sourceFile)) {
@@ -73,6 +96,11 @@ public final class CatalogHolder {
 
     }
 
+    /**
+     * Loads catalog from source fils
+     * @param sourceFile the catalog source
+     * @return Deserialized catalog
+     */
     private Catalog loadCatalog(String sourceFile) {
         logger.debug("Reading catalog: " + sourceFile);
         try (InputStream xml = new FileInputStream(sourceFile)){
