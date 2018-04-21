@@ -22,6 +22,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * The class for holding chain catalog
+ */
 @Slf4j
 public final class CatalogHolder {
 
@@ -33,7 +36,12 @@ public final class CatalogHolder {
     /**
      * Catalog holder instance
      */
-    private static CatalogHolder ourInstance = new CatalogHolder();
+    private static final CatalogHolder ourInstance = new CatalogHolder();
+
+    /**
+     * The read catalog
+     */
+    private Catalog catalog;
 
     /**
      * Gets the catalog holder instance
@@ -42,11 +50,6 @@ public final class CatalogHolder {
     public static CatalogHolder getInstance() {
         return ourInstance;
     }
-
-    /**
-     * The read catalog
-     */
-    private Catalog catalog;
 
     /**
      * Private constructor
