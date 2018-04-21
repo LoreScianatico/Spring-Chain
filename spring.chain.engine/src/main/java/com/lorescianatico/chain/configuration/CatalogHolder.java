@@ -18,7 +18,6 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,10 +52,14 @@ public final class CatalogHolder {
         return catalog;
     }
 
+    @Synchronized
+    public void dropCatalog(){
+        catalog=null;
+    }
+
     private void verifyCatalog(String sourceFile) {
-        File initialFile = new File(sourceFile);
         logger.debug("Validating catalog file: " + sourceFile);
-        try (InputStream xml = new FileInputStream(initialFile)) {
+        try (InputStream xml = new FileInputStream(sourceFile)) {
             InputStream xsd = this.getClass().getResourceAsStream(SCHEMA);
             SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
             Schema schema = factory.newSchema(new StreamSource(xsd));

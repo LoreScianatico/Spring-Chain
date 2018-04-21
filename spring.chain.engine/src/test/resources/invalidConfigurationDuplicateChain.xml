@@ -7,7 +7,7 @@
                 <handler handlerName="This is another name">com.lorescianatico.chain.handler.AnotherDummyHandler</handler>
             </handlerList>
         </chain>
-        <chain chainName="AnotherChain">
+        <chain chainName="Chain">
             <handlerList>
                 <handler handlerName="This is a name">com.lorescianatico.chain.handler.DummyHandler</handler>
                 <handler handlerName="This is another name">com.lorescianatico.chain.handler.AnotherDummyHandler</handler>

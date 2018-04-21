@@ -17,14 +17,15 @@ public class CatalogHolderTest {
 
     @Test
     public void getCatalog() {
+        CatalogHolder.getInstance().dropCatalog();
         Catalog catalog = CatalogHolder.getInstance().getCatalog("./src/test/resources/configuration.xml");
         assertNotNull(catalog);
         assertNotNull(catalog.getChainList());
-        assertEquals(1, catalog.getChainList().getChain().size());
+        assertEquals(2, catalog.getChainList().getChain().size());
         assertNotNull(catalog.getChainList().getChain().get(0));
         assertNotNull(catalog.getChainList().getChain().get(0).getHandlerList());
         assertNotNull(catalog.getChainList().getChain().get(0).getChainName());
-        assertEquals(1, catalog.getChainList().getChain().get(0).getHandlerList().getHandler().size());
+        assertEquals(2, catalog.getChainList().getChain().get(0).getHandlerList().getHandler().size());
         assertNotNull(catalog.getChainList().getChain().get(0).getHandlerList().getHandler().get(0));
         assertNotNull(catalog.getChainList().getChain().get(0).getHandlerList().getHandler().get(0).getValue());
         assertNotNull(catalog.getChainList().getChain().get(0).getHandlerList().getHandler().get(0).getHandlerName());
@@ -32,6 +33,19 @@ public class CatalogHolderTest {
 
     @Test(expected = InvalidCatalogException.class)
     public void getInvalidCatalog() {
+        CatalogHolder.getInstance().dropCatalog();
         Catalog catalog = CatalogHolder.getInstance().getCatalog("./src/test/resources/invalidConfiguration.xml");
+    }
+
+    @Test(expected = InvalidCatalogException.class)
+    public void getInvalidCatalogDuplicateHandler() {
+        CatalogHolder.getInstance().dropCatalog();
+        Catalog catalog = CatalogHolder.getInstance().getCatalog("./src/test/resources/invalidConfigurationDuplicateHandler.xml");
+    }
+
+    @Test(expected = InvalidCatalogException.class)
+    public void getInvalidCatalogDuplicateChain() {
+        CatalogHolder.getInstance().dropCatalog();
+        Catalog catalog = CatalogHolder.getInstance().getCatalog("./src/test/resources/invalidConfigurationDuplicateChain.xml");
     }
 }
