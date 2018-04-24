@@ -1,4 +1,4 @@
-package com.lorescianatico.chain.handler;
+package com.lorescianatico.chain.executable;
 
 import com.lorescianatico.chain.context.AbstractChainContext;
 import com.lorescianatico.chain.fault.ChainExecutionException;
