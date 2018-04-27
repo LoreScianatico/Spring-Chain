@@ -42,18 +42,26 @@ public final class ChainExecutor {
     @Autowired
     private ChainExecutionParameters parameters;
 
-    private Map<String, DeclaredChain> chainMap;
+    private Map<String, DeclaredChain> chainMap = new HashMap<>();
 
     /**
      * Reads and loads the catalog
      */
     @PostConstruct
     public void readCatalog(){
-        chainMap = new HashMap<>();
+        chainMap.clear();
         Catalog catalog = CatalogReader.getInstance().getCatalog(parameters.getCatalogFileLocation());
-        putDeclaredChains(chainMap, catalog);
+        putDeclaredChains(catalog);
     }
 
+    /**
+     * Executes a Chain on a context
+     *
+     * @param chainName the name of the chain
+     * @param chainContext the context to be processed
+     * @param <T> the context type
+     * @throws ChainExecutionException if an handler throws an exception
+     */
     public <T extends AbstractChainContext> void executeChain(String chainName, T chainContext) throws ChainExecutionException {
 
         if (!chainMap.containsKey(chainName)){
@@ -73,22 +81,32 @@ public final class ChainExecutor {
         logger.info("Execution completed.");
     }
 
-    private void putDeclaredChains(Map<String, DeclaredChain>chainMap, Catalog catalog){
+    /**
+     * Fills the chain map with the catalog
+     *
+     * @param catalog the chain catalog
+     */
+    private void putDeclaredChains(Catalog catalog){
 
         catalog.getChainList().getChain().forEach(chain -> {
             String chainName = chain.getChainName();
-            List<DeclaredHandler> chainHandlers = getChainHandlers(handlers, chain.getHandlerList());
+            List<DeclaredHandler> chainHandlers = getChainHandlers(chain.getHandlerList());
             logger.info(StringBuilderUtil.build("Loaded chain: ", chainName));
             chainMap.put(chainName, new DeclaredChain(chainHandlers));
         });
 
     }
 
-    private List<DeclaredHandler> getChainHandlers(List<DeclaredHandler> handlers, Chain.HandlerList handlerList) {
+    /**
+     * Gets handlers implementation by name
+     * @param handlerList the list of handler to load for a chain
+     * @return the list of {@link DeclaredHandler} corresponding to the handlers in catalog
+     */
+    private List<DeclaredHandler> getChainHandlers(Chain.HandlerList handlerList) {
         List<DeclaredHandler> chainHandlers = new ArrayList<>();
 
         handlerList.getHandler().forEach(handler -> {
-            DeclaredHandler declaredHandler = findHandlerByName(handlers, handler.getValue());
+            DeclaredHandler declaredHandler = findHandlerByName(handler.getValue());
             chainHandlers.add(declaredHandler);
         });
 
@@ -97,7 +115,12 @@ public final class ChainExecutor {
         return  chainHandlers;
     }
 
-    private DeclaredHandler findHandlerByName(List<DeclaredHandler> handlers, String value) {
+    /**
+     * Gets the handler implementation based on configured name
+     * @param value the handler to be found
+     * @return the actual handler implementation
+     */
+    private DeclaredHandler findHandlerByName(String value) {
         for (DeclaredHandler handler: handlers){
             if (handler.getClass().getName().equals(value)){
                 logger.debug(StringBuilderUtil.build("Handler found: ", value));
