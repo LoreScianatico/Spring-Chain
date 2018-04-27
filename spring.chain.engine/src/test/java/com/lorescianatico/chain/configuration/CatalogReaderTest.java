@@ -7,18 +7,17 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class CatalogHolderTest {
+public class CatalogReaderTest {
 
     @Test
     public void getInstance() {
-        CatalogHolder catalogHolder = CatalogHolder.getInstance();
-        assertNotNull(catalogHolder);
+        CatalogReader catalogReader = CatalogReader.getInstance();
+        assertNotNull(catalogReader);
     }
 
     @Test
     public void getCatalog() {
-        CatalogHolder.getInstance().dropCatalog();
-        Catalog catalog = CatalogHolder.getInstance().getCatalog("./src/test/resources/configuration.xml");
+        Catalog catalog = CatalogReader.getInstance().getCatalog("./src/test/resources/configuration.xml");
         assertNotNull(catalog);
         assertNotNull(catalog.getChainList());
         assertEquals(2, catalog.getChainList().getChain().size());
@@ -33,19 +32,16 @@ public class CatalogHolderTest {
 
     @Test(expected = InvalidCatalogException.class)
     public void getInvalidCatalog() {
-        CatalogHolder.getInstance().dropCatalog();
-        Catalog catalog = CatalogHolder.getInstance().getCatalog("./src/test/resources/invalidConfiguration.xml");
+        Catalog catalog = CatalogReader.getInstance().getCatalog("./src/test/resources/invalidConfiguration.xml");
     }
 
     @Test(expected = InvalidCatalogException.class)
     public void getInvalidCatalogDuplicateHandler() {
-        CatalogHolder.getInstance().dropCatalog();
-        Catalog catalog = CatalogHolder.getInstance().getCatalog("./src/test/resources/invalidConfigurationDuplicateHandler.xml");
+        Catalog catalog = CatalogReader.getInstance().getCatalog("./src/test/resources/invalidConfigurationDuplicateHandler.xml");
     }
 
     @Test(expected = InvalidCatalogException.class)
     public void getInvalidCatalogDuplicateChain() {
-        CatalogHolder.getInstance().dropCatalog();
-        Catalog catalog = CatalogHolder.getInstance().getCatalog("./src/test/resources/invalidConfigurationDuplicateChain.xml");
+        Catalog catalog = CatalogReader.getInstance().getCatalog("./src/test/resources/invalidConfigurationDuplicateChain.xml");
     }
 }

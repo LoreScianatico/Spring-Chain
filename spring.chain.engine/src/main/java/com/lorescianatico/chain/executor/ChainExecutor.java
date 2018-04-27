@@ -1,6 +1,6 @@
 package com.lorescianatico.chain.executor;
 
-import com.lorescianatico.chain.configuration.CatalogHolder;
+import com.lorescianatico.chain.configuration.CatalogReader;
 import com.lorescianatico.chain.configuration.ChainExecutionParameters;
 import com.lorescianatico.chain.configuration.model.Catalog;
 import com.lorescianatico.chain.configuration.model.Chain;
@@ -50,7 +50,7 @@ public final class ChainExecutor {
     @PostConstruct
     public void readCatalog(){
         chainMap = new HashMap<>();
-        Catalog catalog = CatalogHolder.getInstance().getCatalog(parameters.getCatalogFileLocation());
+        Catalog catalog = CatalogReader.getInstance().getCatalog(parameters.getCatalogFileLocation());
         putDeclaredChains(chainMap, catalog);
     }
 

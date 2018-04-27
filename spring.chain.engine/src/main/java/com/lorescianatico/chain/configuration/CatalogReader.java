@@ -26,7 +26,7 @@ import java.io.InputStream;
  * The class for holding chain catalog
  */
 @Slf4j
-public final class CatalogHolder {
+public final class CatalogReader {
 
     /**
      * Schema definition
@@ -36,25 +36,20 @@ public final class CatalogHolder {
     /**
      * Catalog holder instance
      */
-    private static final CatalogHolder ourInstance = new CatalogHolder();
-
-    /**
-     * The read catalog
-     */
-    private Catalog catalog;
+    private static final CatalogReader ourInstance = new CatalogReader();
 
     /**
      * Gets the catalog holder instance
      * @return catalog holder
      */
-    public static CatalogHolder getInstance() {
+    public static CatalogReader getInstance() {
         return ourInstance;
     }
 
     /**
      * Private constructor
      */
-    private CatalogHolder() {}
+    private CatalogReader() {}
 
     /**
      * Get the catalog configuration
@@ -64,19 +59,8 @@ public final class CatalogHolder {
      */
     @Synchronized
     public Catalog getCatalog(String sourceFile){
-        if (catalog==null){
-            verifyCatalog(sourceFile);
-            catalog=loadCatalog(sourceFile);
-        }
-        return catalog;
-    }
-
-    /**
-     * Drops the current catalog
-     */
-    @Synchronized
-    public void dropCatalog(){
-        catalog=null;
+        verifyCatalog(sourceFile);
+        return loadCatalog(sourceFile);
     }
 
     /**
