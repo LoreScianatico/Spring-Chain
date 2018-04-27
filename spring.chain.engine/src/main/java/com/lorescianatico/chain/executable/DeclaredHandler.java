@@ -4,9 +4,9 @@ import com.lorescianatico.chain.context.AbstractChainContext;
 import com.lorescianatico.chain.fault.ChainExecutionException;
 
 /**
- * Chain Handler interface
+ * Chain DeclaredHandler interface
  */
-public interface Handler {
+public interface DeclaredHandler {
 
     /**
      * Executes the handler on the context

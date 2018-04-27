@@ -11,6 +11,6 @@ import java.util.List;
 public class DeclaredChain {
 
     @Singular
-    private List<Handler> handlers;
+    private List<DeclaredHandler> handlers;
 
 }

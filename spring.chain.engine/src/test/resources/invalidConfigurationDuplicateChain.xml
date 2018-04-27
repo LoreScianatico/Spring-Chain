@@ -3,14 +3,14 @@
     <chainList>
         <chain chainName="Chain">
             <handlerList>
-                <handler handlerName="This is a name">com.lorescianatico.chain.handler.DummyHandler</handler>
-                <handler handlerName="This is another name">com.lorescianatico.chain.handler.AnotherDummyHandler</handler>
+                <handler handlerName="This is a name">com.lorescianatico.chain.stereotype.DummyHandler</handler>
+                <handler handlerName="This is another name">com.lorescianatico.chain.stereotype.AnotherDummyHandler</handler>
             </handlerList>
         </chain>
         <chain chainName="Chain">
             <handlerList>
-                <handler handlerName="This is a name">com.lorescianatico.chain.handler.DummyHandler</handler>
-                <handler handlerName="This is another name">com.lorescianatico.chain.handler.AnotherDummyHandler</handler>
+                <handler handlerName="This is a name">com.lorescianatico.chain.stereotype.DummyHandler</handler>
+                <handler handlerName="This is another name">com.lorescianatico.chain.stereotype.AnotherDummyHandler</handler>
             </handlerList>
         </chain>
     </chainList>
