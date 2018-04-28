@@ -51,21 +51,13 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.6.201602180812</version>
+				<version>0.7.9</version>
 				<executions>
 					<execution>
 						<id>prepare-agent</id>
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
-						<configuration>
-							<excludes>
-								<exclude>com/lorescianatico/chain/configuration/model/ObjectFactory.java</exclude>
-								<exclude>com/lorescianatico/chain/configuration/model/Catalog.java</exclude>
-								<exclude>com/lorescianatico/chain/configuration/model/Chain.java</exclude>
-								<exclude>com/lorescianatico/chain/configuration/model/Handler.java</exclude>
-							</excludes>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
