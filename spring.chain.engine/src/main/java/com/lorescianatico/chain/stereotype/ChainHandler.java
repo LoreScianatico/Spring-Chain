@@ -1,4 +1,4 @@
-package com.lorescianatico.chain.handler;
+package com.lorescianatico.chain.stereotype;
 
 import org.springframework.stereotype.Component;
 
