@@ -58,6 +58,11 @@
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
+						<configuration>
+							<excludes>
+								<exclude>com/lorescianatico/chain/configuration/model/*</exclude>
+							</excludes>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
