@@ -60,7 +60,10 @@
 						</goals>
 						<configuration>
 							<excludes>
-								<exclude>com/lorescianatico/chain/configuration/model/*</exclude>
+								<exclude>com/lorescianatico/chain/configuration/model/ObjectFactory.java</exclude>
+								<exclude>com/lorescianatico/chain/configuration/model/Catalog.java</exclude>
+								<exclude>com/lorescianatico/chain/configuration/model/Chain.java</exclude>
+								<exclude>com/lorescianatico/chain/configuration/model/Handler.java</exclude>
 							</excludes>
 						</configuration>
 					</execution>
