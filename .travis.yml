@@ -4,7 +4,7 @@ install:
   - mvn -N io.takari:maven:wrapper
   - ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 after_success:
-  - mvn clean test jacoco:report coveralls:report sonar:sonar
+  - mvn clean test jacoco:report sonar:sonar
 
 addons:
   sonarcloud:
