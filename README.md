@@ -10,7 +10,7 @@ Spring-Chain is an implementation of the well known COR pattern based entirely o
 
 ## Features
 
-* XML based configuration: you chain can be entirely declared using an XML file
+* XML based configuration: your chain can be entirely declared using an XML file
 * More coming soon...
 
 
