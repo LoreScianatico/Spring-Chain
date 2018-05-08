@@ -34,19 +34,6 @@ public final class CatalogReader {
     private static final String SCHEMA = "/catalog.xsd";
 
     /**
-     * Catalog holder instance
-     */
-    private static final CatalogReader INSTANCE = new CatalogReader();
-
-    /**
-     * Gets the catalog holder instance
-     * @return catalog holder
-     */
-    public static CatalogReader getInstance() {
-        return INSTANCE;
-    }
-
-    /**
      * Private constructor
      */
     private CatalogReader() {}
@@ -58,7 +45,7 @@ public final class CatalogReader {
      * @return the deserialized catalog object
      */
     @Synchronized
-    public Catalog getCatalog(String sourceFile){
+    public static Catalog getCatalog(String sourceFile){
         verifyCatalog(sourceFile);
         return loadCatalog(sourceFile);
     }
@@ -67,10 +54,10 @@ public final class CatalogReader {
      * Verify that catalog configuration is compliant with the catalog schema
      * @param sourceFile the catalog to be verified
      */
-    private void verifyCatalog(String sourceFile) {
+    private static void verifyCatalog(String sourceFile) {
         logger.debug("Validating catalog file: " + sourceFile);
         try (InputStream xml = new FileInputStream(sourceFile)) {
-            InputStream xsd = this.getClass().getResourceAsStream(SCHEMA);
+            InputStream xsd = CatalogReader.class.getResourceAsStream(SCHEMA);
             SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
             Schema schema = factory.newSchema(new StreamSource(xsd));
             Validator validator = schema.newValidator();

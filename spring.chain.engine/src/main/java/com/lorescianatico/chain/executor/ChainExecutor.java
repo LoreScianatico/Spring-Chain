@@ -50,7 +50,7 @@ public final class ChainExecutor {
     @PostConstruct
     public void readCatalog(){
         chainMap.clear();
-        Catalog catalog = CatalogReader.getInstance().getCatalog(parameters.getCatalogFileLocation());
+        Catalog catalog = CatalogReader.getCatalog(parameters.getCatalogFileLocation());
         putDeclaredChains(catalog);
     }
 

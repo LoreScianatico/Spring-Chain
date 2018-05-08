@@ -10,14 +10,8 @@ import static org.junit.Assert.assertNotNull;
 public class CatalogReaderTest {
 
     @Test
-    public void getInstance() {
-        CatalogReader catalogReader = CatalogReader.getInstance();
-        assertNotNull(catalogReader);
-    }
-
-    @Test
     public void getCatalog() {
-        Catalog catalog = CatalogReader.getInstance().getCatalog("./src/test/resources/configuration.xml");
+        Catalog catalog = CatalogReader.getCatalog("./src/test/resources/configuration.xml");
         assertNotNull(catalog);
         assertNotNull(catalog.getChainList());
         assertEquals(2, catalog.getChainList().getChain().size());
@@ -32,16 +26,16 @@ public class CatalogReaderTest {
 
     @Test(expected = InvalidCatalogException.class)
     public void getInvalidCatalog() {
-        Catalog catalog = CatalogReader.getInstance().getCatalog("./src/test/resources/invalidConfiguration.xml");
+        Catalog catalog = CatalogReader.getCatalog("./src/test/resources/invalidConfiguration.xml");
     }
 
     @Test(expected = InvalidCatalogException.class)
     public void getInvalidCatalogDuplicateHandler() {
-        Catalog catalog = CatalogReader.getInstance().getCatalog("./src/test/resources/invalidConfigurationDuplicateHandler.xml");
+        Catalog catalog = CatalogReader.getCatalog("./src/test/resources/invalidConfigurationDuplicateHandler.xml");
     }
 
     @Test(expected = InvalidCatalogException.class)
     public void getInvalidCatalogDuplicateChain() {
-        Catalog catalog = CatalogReader.getInstance().getCatalog("./src/test/resources/invalidConfigurationDuplicateChain.xml");
+        Catalog catalog = CatalogReader.getCatalog("./src/test/resources/invalidConfigurationDuplicateChain.xml");
     }
 }
