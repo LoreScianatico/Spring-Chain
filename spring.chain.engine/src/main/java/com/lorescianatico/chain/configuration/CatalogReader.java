@@ -88,7 +88,7 @@ public final class CatalogReader {
      * @param sourceFile the catalog source
      * @return Deserialized catalog
      */
-    private Catalog loadCatalog(String sourceFile) {
+    private static Catalog loadCatalog(String sourceFile) {
         logger.debug("Reading catalog: " + sourceFile);
         try (InputStream xml = new FileInputStream(sourceFile)){
             JAXBContext jaxbContext = JAXBContext.newInstance(Catalog.class.getPackage().getName());
