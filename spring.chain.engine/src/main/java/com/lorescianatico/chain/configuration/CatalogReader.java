@@ -36,14 +36,14 @@ public final class CatalogReader {
     /**
      * Catalog holder instance
      */
-    private static final CatalogReader ourInstance = new CatalogReader();
+    private static final CatalogReader INSTANCE = new CatalogReader();
 
     /**
      * Gets the catalog holder instance
      * @return catalog holder
      */
     public static CatalogReader getInstance() {
-        return ourInstance;
+        return INSTANCE;
     }
 
     /**
