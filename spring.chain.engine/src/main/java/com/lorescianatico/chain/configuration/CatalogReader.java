@@ -81,6 +81,9 @@ public final class CatalogReader {
             JAXBContext jaxbContext = JAXBContext.newInstance(Catalog.class.getPackage().getName());
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
+            factory.setProperty("javax.xml.stream.supportDTD", false);
+			factory.setProperty("javax.xml.stream.isReplacingEntityReferences", false);
+			factory.setProperty("javax.xml.stream.isSupportingExternalEntities", false);
             XMLEventReader xmlEventReader = xmlInputFactory.createXMLEventReader(xml);
             JAXBElement<Catalog> catalogDeserialized = jaxbUnmarshaller.unmarshal(xmlEventReader, Catalog.class);
             return  catalogDeserialized.getValue();
