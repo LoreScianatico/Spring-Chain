@@ -4,6 +4,7 @@ package com.lorescianatico.chain.util;
 /**
  * Utility for string building
  */
+@Deprecated
 public class StringBuilderUtil {
 
     /**
