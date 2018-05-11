@@ -10,7 +10,6 @@ import com.lorescianatico.chain.executable.DeclaredHandler;
 import com.lorescianatico.chain.fault.ChainExecutionException;
 import com.lorescianatico.chain.fault.UndefinedChainException;
 import com.lorescianatico.chain.fault.UndefinedHandlerException;
-import com.lorescianatico.chain.util.StringBuilderUtil;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,15 +64,15 @@ public final class ChainExecutor {
     public <T extends AbstractChainContext> void executeChain(String chainName, T chainContext) throws ChainExecutionException {
 
         if (!chainMap.containsKey(chainName)){
-            logger.error("Undefined chain: " + chainName);
+            logger.error("Undefined chain: {}", chainName);
             throw new UndefinedChainException("Undefined chain: " + chainName);
         }
 
-        logger.info(StringBuilderUtil.build("Executing chain: ", chainName));
+        logger.info("Executing chain: {}", chainName);
         DeclaredChain chain = chainMap.get(chainName);
 
         for (DeclaredHandler handler: chain.getHandlers()){
-            logger.debug(StringBuilderUtil.build("Executing handler: ", handler.getClass().getName()));
+            logger.debug("Executing handler: {}", handler.getClass().getName());
             handler.execute(chainContext);
             chainContext.setLastExecutedHandler(handler.getClass().getName());
         }
@@ -91,7 +90,7 @@ public final class ChainExecutor {
         catalog.getChainList().getChain().forEach(chain -> {
             String chainName = chain.getChainName();
             List<DeclaredHandler> chainHandlers = getChainHandlers(chain.getHandlerList());
-            logger.info(StringBuilderUtil.build("Loaded chain: ", chainName));
+            logger.info("Loaded chain: {}", chainName);
             chainMap.put(chainName, new DeclaredChain(chainHandlers));
         });
 
@@ -110,7 +109,7 @@ public final class ChainExecutor {
             chainHandlers.add(declaredHandler);
         });
 
-        logger.debug(StringBuilderUtil.build("Loaded ", Integer.toString(chainHandlers.size()), " handlers."));
+        logger.debug("Loaded {} handlers.", chainHandlers.size());
 
         return  chainHandlers;
     }
@@ -123,11 +122,11 @@ public final class ChainExecutor {
     private DeclaredHandler findHandlerByName(String value) {
         for (DeclaredHandler handler: handlers){
             if (handler.getClass().getName().equals(value)){
-                logger.debug(StringBuilderUtil.build("Handler found: ", value));
+                logger.debug("Handler found: {}", value);
                 return handler;
             }
         }
-        logger.error("No handler with name " + value);
+        logger.error("No handler with name {}", value);
         throw new UndefinedHandlerException("No handler with name " + value);
     }
 

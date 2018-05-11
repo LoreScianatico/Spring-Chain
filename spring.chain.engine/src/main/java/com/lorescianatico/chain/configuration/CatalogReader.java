@@ -55,7 +55,7 @@ public final class CatalogReader {
      * @param sourceFile the catalog to be verified
      */
     private static void verifyCatalog(String sourceFile) {
-        logger.debug("Validating catalog file: " + sourceFile);
+        logger.debug("Validating catalog file: {}", sourceFile);
         try (InputStream xml = new FileInputStream(sourceFile)) {
             InputStream xsd = CatalogReader.class.getResourceAsStream(SCHEMA);
             SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -64,7 +64,7 @@ public final class CatalogReader {
             validator.validate(new StreamSource(xml));
             logger.debug("Catalog file is valid.");
         } catch (SAXException | IOException e) {
-            logger.error("Error while validating configuration: " + e.getMessage());
+            logger.error("Error while validating configuration: {}", e.getMessage());
             throw new InvalidCatalogException("Error while validating configuration: " + e.getMessage());
         }
 
@@ -76,7 +76,7 @@ public final class CatalogReader {
      * @return Deserialized catalog
      */
     private static Catalog loadCatalog(String sourceFile) {
-        logger.debug("Reading catalog: " + sourceFile);
+        logger.debug("Reading catalog: {}", sourceFile);
         try (InputStream xml = new FileInputStream(sourceFile)){
             JAXBContext jaxbContext = JAXBContext.newInstance(Catalog.class.getPackage().getName());
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
@@ -88,10 +88,10 @@ public final class CatalogReader {
             JAXBElement<Catalog> catalogDeserialized = jaxbUnmarshaller.unmarshal(xmlEventReader, Catalog.class);
             return  catalogDeserialized.getValue();
         } catch (JAXBException | XMLStreamException e) {
-            logger.error("Error while unmarshalling catalog: " + e.getMessage());
+            logger.error("Error while unmarshalling catalog: {}", e.getMessage());
             throw new InvalidCatalogException("Error while unmarshalling catalog: " + e.getMessage());
         } catch (IOException e) {
-            logger.error("Error while reading catalog file: " + e.getMessage());
+            logger.error("Error while reading catalog file: {}", e.getMessage());
             throw new InvalidCatalogException("Error while reading catalog file: : " + e.getMessage());
         }
     }
