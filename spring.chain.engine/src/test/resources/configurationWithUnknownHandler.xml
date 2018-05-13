@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<catalog>
+    <chainList>
+        <chain chainName="Chain">
+            <handlerList>
+                <handler handlerName="This is a name">com.lorescianatico.chain.stereotype.DummyHandler</handler>
+                <handler handlerName="This is another name">com.lorescianatico.chain.stereotype.UnknownHandler</handler>
+            </handlerList>
+        </chain>
+    </chainList>
+</catalog>
