@@ -26,19 +26,19 @@ public class ChainExecutorTest {
     private ChainExecutionParameters parameters;
 
     @InjectMocks
-    private ChainExecutor chainExecutor;
+    private ChainExecutorBean chainExecutorBean;
 
     @Before
     public void setUp() throws Exception {
         when(parameters.getCatalogFileLocation()).thenReturn("./src/test/resources/configuration.xml");
-        ReflectionTestUtils.setField(chainExecutor, "handlers", Arrays.asList(new DummyHandler(), new AnotherDummyHandler()));
-        chainExecutor.readCatalog();
+        ReflectionTestUtils.setField(chainExecutorBean, "handlers", Arrays.asList(new DummyHandler(), new AnotherDummyHandler()));
+        chainExecutorBean.readCatalog();
     }
 
     @Test
     public void executeChain() {
         try {
-            chainExecutor.executeChain("Chain", new AbstractChainContext() {});
+            chainExecutorBean.executeChain("Chain", new AbstractChainContext() {});
         } catch (ChainExecutionException e) {
             fail(e.getMessage());
         }
@@ -47,7 +47,7 @@ public class ChainExecutorTest {
     @Test(expected = UndefinedChainException.class)
     public void executeUndefinedChain() {
         try {
-            chainExecutor.executeChain("UndefinedChain", new AbstractChainContext() {});
+            chainExecutorBean.executeChain("UndefinedChain", new AbstractChainContext() {});
         } catch (ChainExecutionException e) {
             fail(e.getMessage());
         }

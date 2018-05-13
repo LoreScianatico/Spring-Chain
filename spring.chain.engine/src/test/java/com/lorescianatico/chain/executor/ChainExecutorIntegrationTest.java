@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.fail;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {ChainExecutor.class, DummyHandler.class, AnotherDummyHandler.class, ChainExecutionConfiguration.class},
+@SpringBootTest(classes = {ChainExecutorBean.class, DummyHandler.class, AnotherDummyHandler.class, ChainExecutionConfiguration.class},
         properties = {"catalogfile = ./src/test/resources/configuration.xml"})
 public class ChainExecutorIntegrationTest {
 
