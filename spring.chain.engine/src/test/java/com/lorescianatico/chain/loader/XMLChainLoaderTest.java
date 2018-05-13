@@ -24,6 +24,7 @@ public class XMLChainLoaderTest {
     public void setUp() {
         xmlChainLoader = new XMLChainLoader();
         ReflectionTestUtils.setField(xmlChainLoader, "handlers", Arrays.asList(new DummyHandler(), new AnotherDummyHandler()));
+        xmlChainLoader.mapHandlers();
     }
 
     @Test

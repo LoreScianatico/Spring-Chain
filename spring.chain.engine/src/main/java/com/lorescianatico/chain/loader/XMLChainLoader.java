@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +29,14 @@ public class XMLChainLoader implements ChainLoader<Catalog, DeclaredChain> {
      */
     @Autowired
     private List<DeclaredHandler> handlers;
+
+    private Map<String, DeclaredHandler> handlerMap = new HashMap<>();
+
+    @PostConstruct
+    void mapHandlers(){
+        handlerMap.clear();
+        handlers.forEach(handler -> handlerMap.put(handler.getClass().getName(), handler));
+    }
 
     @Override
     public Map<String, DeclaredChain> loadChain(Catalog catalog) {
@@ -67,11 +76,10 @@ public class XMLChainLoader implements ChainLoader<Catalog, DeclaredChain> {
      * @return the actual handler implementation
      */
     private DeclaredHandler findHandlerByName(String value) {
-        for (DeclaredHandler handler: handlers){
-            if (handler.getClass().getName().equals(value)){
-                logger.debug("Handler found: {}", value);
-                return handler;
-            }
+
+        if(handlerMap.containsKey(value)){
+            logger.debug("Handler found: {}", value);
+            return handlerMap.get(value);
         }
         logger.error("No handler with name {}", value);
         throw new UndefinedHandlerException("No handler with name " + value);
