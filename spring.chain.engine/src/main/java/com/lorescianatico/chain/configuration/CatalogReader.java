@@ -2,6 +2,7 @@ package com.lorescianatico.chain.configuration;
 
 import com.lorescianatico.chain.configuration.model.Catalog;
 import com.lorescianatico.chain.fault.InvalidCatalogException;
+import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
 import org.xml.sax.SAXException;
 
@@ -43,6 +44,7 @@ public final class CatalogReader {
      * @param sourceFile the source of the catalog configuration
      * @return the deserialized catalog object
      */
+    @Synchronized
     public static Catalog getCatalog(String sourceFile){
         verifyCatalog(sourceFile);
         return loadCatalog(sourceFile);
