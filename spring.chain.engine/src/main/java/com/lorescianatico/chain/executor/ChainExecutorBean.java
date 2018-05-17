@@ -9,6 +9,7 @@ import com.lorescianatico.chain.executable.DeclaredHandler;
 import com.lorescianatico.chain.fault.ChainExecutionException;
 import com.lorescianatico.chain.fault.UndefinedChainException;
 import com.lorescianatico.chain.loader.ChainLoader;
+import com.lorescianatico.chain.util.ChainLoaderQualifier;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,7 +33,7 @@ public final class ChainExecutorBean implements ChainExecutor {
     private ChainExecutionParameters parameters;
 
     @Autowired
-    @Qualifier("xml")
+    @Qualifier(ChainLoaderQualifier.XML_QUALIFIER)
     private ChainLoader<Catalog, DeclaredChain> loader;
 
     private Map<String, DeclaredChain> chainMap = new HashMap<>();

@@ -5,6 +5,7 @@ import com.lorescianatico.chain.configuration.model.Chain;
 import com.lorescianatico.chain.executable.DeclaredChain;
 import com.lorescianatico.chain.executable.DeclaredHandler;
 import com.lorescianatico.chain.fault.UndefinedHandlerException;
+import com.lorescianatico.chain.util.ChainLoaderQualifier;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,7 +21,7 @@ import java.util.Map;
  * Loader class for XML defined chains
  */
 @Component
-@Qualifier("xml")
+@Qualifier(ChainLoaderQualifier.XML_QUALIFIER)
 @Slf4j
 public class XMLChainLoader implements ChainLoader<Catalog, DeclaredChain> {
 
