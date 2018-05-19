@@ -1,8 +1,6 @@
 package com.lorescianatico.spring.chain.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NonNull;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,6 +9,8 @@ import javax.validation.constraints.NotNull;
 @Table(name = "INGREDIENTS", indexes = {@Index(name="INGREDIENTS_NAME_IDX", columnList = "NAME")})
 @Data
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class Ingredient extends AbstractEntity {
 
     @NotNull
