@@ -19,7 +19,7 @@ public class RecipeDto {
 
     private String name;
 
-    private String description;
+    private String directions;
 
     private List<IngredientDto> ingredients;
 
