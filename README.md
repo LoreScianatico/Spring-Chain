@@ -15,7 +15,6 @@ Spring-Chain is an implementation of the well known COR pattern based entirely o
 
 
 [![Build Status](https://travis-ci.org/LoreScianatico/Spring-Chain.svg?branch=master)](https://travis-ci.org/LoreScianatico/Spring-Chain)
-[![Dependency Status](https://www.versioneye.com/user/projects/5ad24a360fb24f3a025c0085/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5ad24a360fb24f3a025c0085)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.lorescianatico%3Aspring.chain-parent&metric=alert_status)](https://sonarcloud.io/api/project_badges/measure?project=com.lorescianatico%3Aspring.chain-parent&metric=alert_status)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=com.lorescianatico%3Aspring.chain-parent&metric=coverage)](https://sonarcloud.io/api/project_badges/measure?project=com.lorescianatico%3Aspring.chain-parent&metric=coverage)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=com.lorescianatico%3Aspring.chain-parent&metric=bugs)](https://sonarcloud.io/api/project_badges/measure?project=com.lorescianatico%3Aspring.chain-parent&metric=bugs)
