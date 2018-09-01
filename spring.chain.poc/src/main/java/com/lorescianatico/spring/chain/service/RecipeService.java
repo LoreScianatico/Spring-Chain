@@ -14,4 +14,5 @@ public interface RecipeService {
 
     List<RecipeDto> findByName(String name);
 
+    List<RecipeDto> getAllRecipes();
 }

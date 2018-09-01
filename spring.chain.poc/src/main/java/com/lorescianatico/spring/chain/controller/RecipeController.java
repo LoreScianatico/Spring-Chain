@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("recipe")
 public class RecipeController {
 
     @Autowired
@@ -17,7 +18,7 @@ public class RecipeController {
     public String saveRecipe(@ModelAttribute RecipeDto recipeDto){return null;}
 
     @GetMapping
-    @RequestMapping("recipe/{id}")
+    @RequestMapping("{id}")
     public String getRecipeById(@PathVariable Long id, Model model){
         return null;
     }
@@ -28,8 +29,26 @@ public class RecipeController {
     }
 
     @GetMapping
-    @RequestMapping("recipe")
-    public String getByName(@RequestParam String name, Model model){
+    @RequestMapping("{name}")
+    public String getByName(@PathVariable String name, Model model){
         return null;
+    }
+
+    @GetMapping
+    @RequestMapping("all")
+    public String getAllRecipes(Model model){
+
+        model.addAttribute("recipes", recipeService.getAllRecipes());
+        return "index";
+
+    }
+
+    @GetMapping
+    @RequestMapping("new")
+    public String getEmptyRecipe(Model model){
+
+        model.addAttribute("recipe",new RecipeDto());
+        return "recipe/recipeform";
+
     }
 }

@@ -54,4 +54,11 @@ public class RecipeServiceBean implements RecipeService {
         logger.info("Found {} recipe(s).", recipes.size());
         return recipes.stream().map(recipeMapper::recipeToRecipeDto).collect(Collectors.toList());
     }
+
+    @Override
+    public List<RecipeDto> getAllRecipes() {
+        List<Recipe> recipes = recipeRepository.findAll();
+        logger.info("Found {} recipe(s).", recipes.size());
+        return recipes.stream().map(recipeMapper::recipeToRecipeDto).collect(Collectors.toList());
+    }
 }

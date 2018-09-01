@@ -21,8 +21,9 @@ public class Recipe extends AbstractEntity{
     private String name;
 
     @Lob
+    @Column(name = "DIRECTIONS")
     private String directions;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "recipe")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "recipe")
     private Set<Ingredient> ingredients = new HashSet<>();
 }

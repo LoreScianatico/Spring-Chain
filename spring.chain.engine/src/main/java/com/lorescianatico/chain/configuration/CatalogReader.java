@@ -92,7 +92,7 @@ public final class CatalogReader {
             throw new InvalidCatalogException("Error while unmarshalling catalog: " + e.getMessage());
         } catch (IOException e) {
             logger.error("Error while reading catalog file: {}", e.getMessage());
-            throw new InvalidCatalogException("Error while reading catalog file: : " + e.getMessage());
+            throw new InvalidCatalogException("Error while reading catalog file: " + e.getMessage());
         }
     }
 
