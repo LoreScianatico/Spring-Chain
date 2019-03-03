@@ -64,8 +64,7 @@ public final class CatalogReader {
             validator.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA , "");
             validator.validate(new StreamSource(xml));
             logger.debug("Catalog file is valid.");
-        }
-        catch (SAXException | IOException e) {
+        } catch (SAXException | IOException e) {
             logger.error("Error while validating configuration: {}", e.getMessage());
             throw new InvalidCatalogException("Error while validating configuration: " + e.getMessage());
         }
@@ -73,7 +72,7 @@ public final class CatalogReader {
     }
 
     /**
-     * Loads catalog from source fils
+     * Loads catalog from source files
      * @param sourceFile the catalog source
      * @return Deserialized catalog
      */
