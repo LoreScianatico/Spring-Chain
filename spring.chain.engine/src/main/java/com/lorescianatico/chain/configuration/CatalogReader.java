@@ -2,6 +2,7 @@ package com.lorescianatico.chain.configuration;
 
 import com.lorescianatico.chain.configuration.model.Catalog;
 import com.lorescianatico.chain.fault.InvalidCatalogException;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.xml.sax.SAXException;
 
@@ -76,6 +77,7 @@ public final class CatalogReader {
      * @param sourceFile the catalog source
      * @return Deserialized catalog
      */
+    @SneakyThrows({IOException.class, JAXBException.class, XMLStreamException.class})
     private static Catalog loadCatalog(String sourceFile) {
         logger.debug("Reading catalog: {}", sourceFile);
         try (InputStream xml = new FileInputStream(sourceFile)){
@@ -88,12 +90,6 @@ public final class CatalogReader {
             XMLEventReader xmlEventReader = xmlInputFactory.createXMLEventReader(xml);
             JAXBElement<Catalog> catalogDeserialized = jaxbUnmarshaller.unmarshal(xmlEventReader, Catalog.class);
             return  catalogDeserialized.getValue();
-        } catch (JAXBException | XMLStreamException e) {
-            logger.error("Error while unmarshalling catalog: {}", e.getMessage());
-            throw new InvalidCatalogException("Error while unmarshalling catalog: " + e.getMessage());
-        } catch (IOException e) {
-            logger.error("Error while reading catalog file: {}", e.getMessage());
-            throw new InvalidCatalogException("Error while reading catalog file: : " + e.getMessage());
         }
     }
 
