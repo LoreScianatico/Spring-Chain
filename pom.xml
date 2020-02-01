@@ -58,6 +58,10 @@
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
+						<configuration>
+							<append>true</append>
+							<destFile>${sonar.jacoco.reportPaths}</destFile>
+						</configuration>
 					</execution>
 					<execution>
 						<id>default-report</id>
@@ -74,7 +78,6 @@
 	<modules>
 		<module>spring.chain.engine</module>
 		<module>spring.chain.poc</module>
-		<module>spring.chain.aggregator</module>
 	</modules>
 
 </project>
