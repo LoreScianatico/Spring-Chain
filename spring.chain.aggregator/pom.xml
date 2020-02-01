@@ -8,6 +8,19 @@
     <artifactId>spring.chain.aggregator</artifactId>
     <version>0.1.0-SNAPSHOT</version>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.lorescianatico</groupId>
+            <artifactId>spring.chain</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lorescianatico</groupId>
+            <artifactId>spring.chain.poc</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
