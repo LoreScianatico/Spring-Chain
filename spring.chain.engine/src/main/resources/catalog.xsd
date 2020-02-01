@@ -6,7 +6,7 @@
                 <xs:element name="chainList" minOccurs="1" maxOccurs="1">
                     <xs:complexType >
                         <xs:sequence>
-                            <xs:element name="chain" minOccurs="0" maxOccurs="unbounded" type="chain"/>
+                            <xs:element name="chain" minOccurs="1" maxOccurs="unbounded" type="chain"/>
                         </xs:sequence>
                     </xs:complexType>
                     <xs:unique name="uniqueChainName">
