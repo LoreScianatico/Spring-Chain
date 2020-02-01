@@ -38,4 +38,14 @@ public class CatalogReaderTest {
     public void getInvalidCatalogDuplicateChain() {
         Catalog catalog = CatalogReader.getCatalog("./src/test/resources/invalidConfigurationDuplicateChain.xml");
     }
+
+    @Test(expected = InvalidCatalogException.class)
+    public void getInvalidCatalogNoFileFound(){
+        Catalog catalog = CatalogReader.getCatalog("./src/test/resources/thisdoesnotexists.xml");
+    }
+
+    @Test(expected = InvalidCatalogException.class)
+    public void getInvalidCatalogNotAnXml(){
+        Catalog catalog = CatalogReader.getCatalog("./src/test/resources/notanxml.txt");
+    }
 }

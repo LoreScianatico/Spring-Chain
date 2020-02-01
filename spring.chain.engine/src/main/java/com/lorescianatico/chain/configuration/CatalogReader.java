@@ -3,6 +3,7 @@ package com.lorescianatico.chain.configuration;
 import com.lorescianatico.chain.configuration.model.Catalog;
 import com.lorescianatico.chain.fault.InvalidCatalogException;
 import lombok.Synchronized;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
@@ -67,6 +68,7 @@ public final class CatalogReader {
              validator.validate(new StreamSource(xml));
              logger.debug("Catalog file is valid.");
         } catch (SAXException | IOException e) {
+
             logger.error("Error while validating configuration: {}", e.getMessage());
             throw new InvalidCatalogException("Error while validating configuration: " + e.getMessage());
         }
@@ -79,6 +81,7 @@ public final class CatalogReader {
      * @param sourceFile the catalog source
      * @return Deserialized catalog
      */
+    @SneakyThrows({IOException.class, JAXBException.class, XMLStreamException.class})
     private static Catalog loadCatalog(String sourceFile) {
         logger.debug("Reading catalog: {}", sourceFile);
         try (InputStream xml = new FileSystemResource(sourceFile).getInputStream()) {
