@@ -67,13 +67,21 @@ public final class ChainExecutorBean implements ChainExecutor {
         logger.info("Executing chain: {}", chainName);
         DeclaredChain chain = chainMap.get(chainName);
 
-        for (DeclaredHandler handler: chain.getHandlers()){
-            logger.debug("Executing handler: {}", handler.getClass().getName());
-            handler.execute(chainContext);
-            chainContext.setLastExecutedHandler(handler.getClass().getName());
+        try {
+            chain.getHandlers().forEach(declaredHandler -> executeHandler(declaredHandler, chainContext));
+        } catch (Exception e) {
+            logger.error("An error occurred while processing chain: {}", e.getMessage());
+            logger.error("Last executed handler was: {}", chainContext.getLastExecutedHandler());
+            throw new ChainExecutionException("An error occurred while processing chain: " + e.getMessage(), e);
         }
 
         logger.info("Execution completed.");
+    }
+
+    private <T extends AbstractChainContext> void executeHandler(DeclaredHandler declaredHandler, T chainContext) {
+        logger.debug("Executing handler: {}", declaredHandler.getClass().getName());
+        declaredHandler.execute(chainContext);
+        chainContext.setLastExecutedHandler(declaredHandler.getClass().getName());
     }
 
     /**

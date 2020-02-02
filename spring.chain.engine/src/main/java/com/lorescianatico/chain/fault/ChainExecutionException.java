@@ -9,7 +9,7 @@ public class ChainExecutionException extends Exception {
      * Constructor
      * @param message exception message
      */
-    public ChainExecutionException(String message) {
-        super(message);
+    public ChainExecutionException(String message, Throwable cause) {
+        super(message, cause);
     }
 }
