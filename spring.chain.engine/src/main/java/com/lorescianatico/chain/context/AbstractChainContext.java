@@ -15,4 +15,6 @@ public abstract class AbstractChainContext {
      */
     private String lastExecutedHandler;
 
+    private String lastRunningHandler;
+
 }

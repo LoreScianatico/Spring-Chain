@@ -1,18 +1,14 @@
 package com.lorescianatico.chain.executor;
 
-import com.lorescianatico.chain.configuration.CatalogReader;
 import com.lorescianatico.chain.configuration.ChainExecutionParameters;
-import com.lorescianatico.chain.configuration.model.Catalog;
 import com.lorescianatico.chain.context.AbstractChainContext;
 import com.lorescianatico.chain.executable.DeclaredChain;
 import com.lorescianatico.chain.executable.DeclaredHandler;
 import com.lorescianatico.chain.fault.ChainExecutionException;
 import com.lorescianatico.chain.fault.UndefinedChainException;
-import com.lorescianatico.chain.loader.ChainLoader;
-import com.lorescianatico.chain.util.ChainLoaderQualifier;
+import com.lorescianatico.chain.servicelocator.LoaderFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -33,8 +29,7 @@ public final class ChainExecutorBean implements ChainExecutor {
     private ChainExecutionParameters parameters;
 
     @Autowired
-    @Qualifier(ChainLoaderQualifier.XML_QUALIFIER)
-    private ChainLoader<Catalog, DeclaredChain> loader;
+    private LoaderFactory loaderFactory;
 
     private Map<String, DeclaredChain> chainMap = new HashMap<>();
 
@@ -44,8 +39,7 @@ public final class ChainExecutorBean implements ChainExecutor {
     @PostConstruct
     void readCatalog(){
         chainMap.clear();
-        Catalog catalog = CatalogReader.getCatalog(parameters.getCatalogFileLocation());
-        putDeclaredChains(catalog);
+        chainMap.putAll(loaderFactory.getLoader(parameters.getCatalogFileExtension()).loadChain(parameters.getCatalogFileLocation()));
     }
 
     /**
@@ -70,7 +64,8 @@ public final class ChainExecutorBean implements ChainExecutor {
         try {
             chain.getHandlers().forEach(declaredHandler -> executeHandler(declaredHandler, chainContext));
         } catch (Exception e) {
-            logger.error("An error occurred while processing chain: {}", e.getMessage());
+            logger.error("An error occurred while processing handler {} from chain {}: {}",
+                    chainContext.getLastRunningHandler(), chainName, e.getMessage());
             logger.error("Last executed handler was: {}", chainContext.getLastExecutedHandler());
             throw new ChainExecutionException("An error occurred while processing chain: " + e.getMessage(), e);
         }
@@ -79,18 +74,11 @@ public final class ChainExecutorBean implements ChainExecutor {
     }
 
     private <T extends AbstractChainContext> void executeHandler(DeclaredHandler declaredHandler, T chainContext) {
-        logger.debug("Executing handler: {}", declaredHandler.getClass().getName());
+        String handlerName = declaredHandler.getClass().getName();
+        logger.debug("Executing handler: {}", handlerName);
+        chainContext.setLastRunningHandler(handlerName);
         declaredHandler.execute(chainContext);
-        chainContext.setLastExecutedHandler(declaredHandler.getClass().getName());
-    }
-
-    /**
-     * Fills the chain map with the catalog
-     *
-     * @param catalog the chain catalog
-     */
-    private void putDeclaredChains(Catalog catalog){
-        chainMap.putAll(loader.loadChain(catalog));
+        chainContext.setLastExecutedHandler(handlerName);
     }
 
 }

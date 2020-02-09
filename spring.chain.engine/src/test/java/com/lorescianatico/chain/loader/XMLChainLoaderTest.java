@@ -1,7 +1,5 @@
 package com.lorescianatico.chain.loader;
 
-import com.lorescianatico.chain.configuration.CatalogReader;
-import com.lorescianatico.chain.configuration.model.Catalog;
 import com.lorescianatico.chain.executable.DeclaredChain;
 import com.lorescianatico.chain.fault.UndefinedHandlerException;
 import com.lorescianatico.chain.stereotype.AnotherDummyHandler;
@@ -29,8 +27,7 @@ public class XMLChainLoaderTest {
 
     @Test
     public void loadChain() {
-        Catalog catalog =CatalogReader.getCatalog("./src/test/resources/configuration.xml");
-        Map<String, DeclaredChain> chainMap = xmlChainLoader.loadChain(catalog);
+        Map<String, DeclaredChain> chainMap = xmlChainLoader.loadChain("./src/test/resources/configuration.xml");
         assertEquals(2, chainMap.size());
         assertNotNull(chainMap.get("Chain"));
         assertNotNull(chainMap.get("AnotherChain"));
@@ -40,7 +37,6 @@ public class XMLChainLoaderTest {
 
     @Test(expected = UndefinedHandlerException.class)
     public void testUndefinedHandler(){
-        Catalog catalog =CatalogReader.getCatalog("./src/test/resources/configurationWithUnknownHandler.xml");
-        Map<String, DeclaredChain> chainMap = xmlChainLoader.loadChain(catalog);
+        Map<String, DeclaredChain> chainMap = xmlChainLoader.loadChain("./src/test/resources/configurationWithUnknownHandler.xml");
     }
 }

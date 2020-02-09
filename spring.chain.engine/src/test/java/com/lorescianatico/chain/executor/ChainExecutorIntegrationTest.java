@@ -1,6 +1,7 @@
 package com.lorescianatico.chain.executor;
 
 import com.lorescianatico.chain.configuration.ChainExecutionConfiguration;
+import com.lorescianatico.chain.configuration.LoaderConfig;
 import com.lorescianatico.chain.context.AbstractChainContext;
 import com.lorescianatico.chain.fault.ChainExecutionException;
 import com.lorescianatico.chain.loader.XMLChainLoader;
@@ -15,7 +16,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.fail;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {ChainExecutorBean.class, DummyHandler.class, AnotherDummyHandler.class, ChainExecutionConfiguration.class, XMLChainLoader.class},
+@SpringBootTest(classes = {ChainExecutorBean.class, DummyHandler.class, AnotherDummyHandler.class,
+        ChainExecutionConfiguration.class, XMLChainLoader.class, LoaderConfig.class},
         properties = {"catalogfile = ./src/test/resources/configuration.xml"})
 public class ChainExecutorIntegrationTest {
 

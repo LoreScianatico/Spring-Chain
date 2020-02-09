@@ -1,14 +1,14 @@
 package com.lorescianatico.chain.loader;
 
+import com.lorescianatico.chain.configuration.CatalogReader;
 import com.lorescianatico.chain.configuration.model.Catalog;
 import com.lorescianatico.chain.configuration.model.Chain;
 import com.lorescianatico.chain.executable.DeclaredChain;
 import com.lorescianatico.chain.executable.DeclaredHandler;
 import com.lorescianatico.chain.fault.UndefinedHandlerException;
-import com.lorescianatico.chain.util.ChainLoaderQualifier;
+import com.lorescianatico.chain.util.TypeConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -20,10 +20,9 @@ import java.util.Map;
 /**
  * Loader class for XML defined chains
  */
-@Component
-@Qualifier(ChainLoaderQualifier.XML_QUALIFIER)
+@Component(TypeConstants.XML_LOADER)
 @Slf4j
-public class XMLChainLoader implements ChainLoader<Catalog, DeclaredChain> {
+public class XMLChainLoader implements ChainLoader {
 
     /**
      * The list of all available handlers
@@ -40,8 +39,9 @@ public class XMLChainLoader implements ChainLoader<Catalog, DeclaredChain> {
     }
 
     @Override
-    public Map<String, DeclaredChain> loadChain(Catalog catalog) {
+    public Map<String, DeclaredChain> loadChain(String source) {
         Map<String,DeclaredChain> chainMap = new HashMap<>();
+        Catalog catalog = CatalogReader.getCatalog(source);
 
         catalog.getChainList().getChain().forEach(chain -> {
             String chainName = chain.getChainName();
