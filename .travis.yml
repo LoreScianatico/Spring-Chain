@@ -8,12 +8,8 @@ addons:
       secure: bS0e26SOD46nAP/Ec2rEQCC8SYnCVmybqbeC6L5tL1uWk5RMHjao6nEOIWlTHidlCOyHvrBkkAgisFmI765nzFYyKjBmCAfIghpOgvW6FAPJsloOzQ+AFB+wvWiF8kTsuq6W46Y3JAL2863uAzt/nPAK7JG/lQITMXgdHU04lNnrz3UrLOlJHywBGu+7iMLUxChxW8ReW42CKjVa5X6Tjcq7yVr2KJ4IThbdGnyE+UHzc18NLEGHKF+WDmpjanZC/fYr8OFsI6RnAzA+jtBYoKGxb/RIIJiEgCTjpzHtTbkHLG07B39B0JkyckzNuWOL7TZ+Rzu38vDD03qcSsXqH47znK46yOFIlI5yOwSK4TDODR4K68/ICdvDFK0jbrEN+z9frs30fG15see41zNiNAZY4D60l36TgDQqqDtEnQ+1g75s0BYDzWj/ZEglgJobmF0iWfxirrzRtDpj/mYC40xsDn9oiMIodSXQwKjZDha5m9Bc400lm3fVDxqC4h5vVzK+s+PWoQ63y5N03qVGDBYHFY1avAqLWQ71DBoqGD+Cpen2GCQhgZF3h2BXekuLRU9r1XTHBMcWSiz+S0Rez/309ZXWedPqX/aWYiBvpsQOd7stLjeiUUIhZWWFKQC1dwVwNaM40wTIHHEvnxW0gCUU9cKJduuyR0qaBOCB/Bc=
 script:
 - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=com.lorescianatico:spring.chain-parent
-#deploy:
-#  provider: openshift
-#  user: LoreScianatico
-#  password:
-#    secure: u+95euUdeGNGQ5zSqVm+DUDW8B1hPot5ilASFRjsQ/Q/ZYou5N+6c3XrRFajU0nEg9T5i2RZlvDkc70hOiPPAyrDV3mJ2kKnQYWj3/bFQrdEHlMpNLySqxkkkiZfSLLTVwdQlqUEHHp5CNRzIndHKL/UrY3FlVKptqBiyCbeg4dduy5N+JDBFdao1uPPhSVnNOQRTGtXCps3fe/X2PFaOqWwJSC5g9cINZfP4rI5+U+R6DYxpnI5eKja3sxTI6fYPRheQKftl4mBYhLx7U2zbQbh6Bn4E3PWROHl0tcvIBsw3tF41pdgSUVGjdvsCNn38i5rty0nbjTeJx/NKbR+Yq7FUZ/ql6QTsYJBJAo96DzYoxqe3kX4Zi5F79yEcqJ0sKGQ+RrrBEpFcA1P6QJu3f6g+5KE5aWeE0AeGGesRXssAGHJTO/8XP2hUsoq2g3KZzxWOICLfAiIFyeENjYytr6fYkzYOzKE3fJkbNvKs8j7hu7i2SwyY36KR+B233PUZMtdFTg9oHjAQYVr+ge/G43fd8P9Z38v2pz4h9dwlRHJZkTXrKgBuMQtIPZ528X72bDos9ab9B1CLgP7RCYcVbXnrZZnrengEHKmOJ/UqJTbHFORB+Wtb7qlveDyd9/07/6VISm9+JE9XkE3JHFTlLSr6A6nBjuW88VqvlCCEnA=
-#  app: Spring-Chain
-#  domain: https://console-openshift-console.apps.us-east-1.starter.openshift-online.com/
-#  on:
-#    repo: LoreScianatico/Spring-Chain
+deploy:
+  provider: script
+  script: bash docker_push
+  on:
+    branch: master
