@@ -17,8 +17,7 @@ public class RecipeController {
     @PostMapping
     public String saveRecipe(@ModelAttribute RecipeDto recipeDto){return null;}
 
-    @GetMapping
-    @RequestMapping("{id}")
+    @GetMapping("{id}")
     public String getRecipeById(@PathVariable Long id, Model model){
         return null;
     }
@@ -28,14 +27,12 @@ public class RecipeController {
         return null;
     }
 
-    @GetMapping
-    @RequestMapping("{name}")
+    @GetMapping("{name}")
     public String getByName(@PathVariable String name, Model model){
         return null;
     }
 
-    @GetMapping
-    @RequestMapping("all")
+    @GetMapping("all")
     public String getAllRecipes(Model model){
 
         model.addAttribute("recipes", recipeService.getAllRecipes());
@@ -43,8 +40,7 @@ public class RecipeController {
 
     }
 
-    @GetMapping
-    @RequestMapping("new")
+    @GetMapping("new")
     public String getEmptyRecipe(Model model){
 
         model.addAttribute("recipe",new RecipeDto());

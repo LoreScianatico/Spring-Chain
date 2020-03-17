@@ -63,6 +63,8 @@ public final class CatalogReader {
         try (InputStream xml = new FileSystemResource(sourceFile).getInputStream();
              InputStream xsd = new ClassPathResource(SCHEMA).getInputStream()) {
              SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+             factory.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+             factory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
              Schema schema = factory.newSchema(new StreamSource(xsd));
              Validator validator = schema.newValidator();
              validator.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
