@@ -1,9 +1,11 @@
 package com.lorescianatico.chain.util;
 
 import com.lorescianatico.chain.fault.InvalidCatalogException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 public class ConfigTypeTest {
 
@@ -13,8 +15,8 @@ public class ConfigTypeTest {
         assertEquals(ConfigType.XML, ConfigType.fromValue("xml"));
     }
 
-    @Test(expected = InvalidCatalogException.class)
+    @Test
     public void unknownValue() {
-        ConfigType.fromValue("unknownextension");
+        assertThrows(InvalidCatalogException.class, () -> ConfigType.fromValue("unknownextension"));
     }
 }

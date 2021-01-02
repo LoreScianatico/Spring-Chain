@@ -6,24 +6,24 @@ import com.lorescianatico.spring.chain.mapper.RecipeMapper;
 import com.lorescianatico.spring.chain.model.Ingredient;
 import com.lorescianatico.spring.chain.model.Recipe;
 import com.lorescianatico.spring.chain.repository.RecipeRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class RecipeServiceBeanTest {
 
     @Mock
@@ -31,10 +31,11 @@ public class RecipeServiceBeanTest {
 
     @InjectMocks
     private RecipeServiceBean recipeServiceBean;
+    private Recipe recipe;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        Recipe recipe = new Recipe("Sample");
+        recipe = new Recipe("Sample");
         recipe.setId(1l);
         recipe.setVersion(1l);
         recipe.setDirections("Some directions over here");
@@ -45,13 +46,14 @@ public class RecipeServiceBeanTest {
         ingredient.setRecipe(recipe);
         recipe.setIngredients(Collections.singleton(ingredient));
         ReflectionTestUtils.setField(recipeServiceBean, "recipeMapper", Mappers.getMapper(RecipeMapper.class));
-        when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe));
-        when(recipeRepository.save(any(Recipe.class))).then(invocationOnMock -> invocationOnMock.getArgument(0));
-        when(recipeRepository.findByNameStartsWith(anyString())).thenReturn(Collections.singletonList(recipe));
+
+
+
     }
 
     @Test
     public void save() {
+        when(recipeRepository.save(any(Recipe.class))).then(invocationOnMock -> invocationOnMock.getArgument(0));
         RecipeDto recipeDto = new RecipeDto();
         recipeDto.setName("Sample");
         recipeDto.setId(1l);
@@ -69,7 +71,7 @@ public class RecipeServiceBeanTest {
 
     @Test
     public void getById() {
-
+        when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe));
         RecipeDto recipeDto = recipeServiceBean.getById(1l);
         assertNotNull(recipeDto);
 
@@ -82,6 +84,7 @@ public class RecipeServiceBeanTest {
     @Test
     public void findByName() {
 
+        when(recipeRepository.findByNameStartsWith(anyString())).thenReturn(Collections.singletonList(recipe));
         List<RecipeDto> recipeDtos = recipeServiceBean.findByName("name");
         assertNotNull(recipeDtos);
         assertNotNull(recipeDtos.get(0));

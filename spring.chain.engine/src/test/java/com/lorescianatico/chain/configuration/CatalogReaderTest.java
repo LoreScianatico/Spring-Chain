@@ -2,10 +2,9 @@ package com.lorescianatico.chain.configuration;
 
 import com.lorescianatico.chain.configuration.model.Catalog;
 import com.lorescianatico.chain.fault.InvalidCatalogException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CatalogReaderTest {
 
@@ -24,28 +23,28 @@ public class CatalogReaderTest {
         assertNotNull(catalog.getChainList().getChain().get(0).getHandlerList().getHandler().get(0).getHandlerName());
     }
 
-    @Test(expected = InvalidCatalogException.class)
+    @Test
     public void getInvalidCatalog() {
-        Catalog catalog = CatalogReader.getCatalog("./src/test/resources/invalidConfiguration.xml");
+        assertThrows(InvalidCatalogException.class, () -> CatalogReader.getCatalog("./src/test/resources/invalidConfiguration.xml"));
     }
 
-    @Test(expected = InvalidCatalogException.class)
+    @Test
     public void getInvalidCatalogDuplicateHandler() {
-        Catalog catalog = CatalogReader.getCatalog("./src/test/resources/invalidConfigurationDuplicateHandler.xml");
+        assertThrows(InvalidCatalogException.class, () -> CatalogReader.getCatalog("./src/test/resources/invalidConfigurationDuplicateHandler.xml"));
     }
 
-    @Test(expected = InvalidCatalogException.class)
+    @Test
     public void getInvalidCatalogDuplicateChain() {
-        Catalog catalog = CatalogReader.getCatalog("./src/test/resources/invalidConfigurationDuplicateChain.xml");
+        assertThrows(InvalidCatalogException.class, () -> CatalogReader.getCatalog("./src/test/resources/invalidConfigurationDuplicateChain.xml"));
     }
 
-    @Test(expected = InvalidCatalogException.class)
+    @Test
     public void getInvalidCatalogNoFileFound(){
-        Catalog catalog = CatalogReader.getCatalog("./src/test/resources/thisdoesnotexists.xml");
+        assertThrows(InvalidCatalogException.class, () -> CatalogReader.getCatalog("./src/test/resources/thisdoesnotexists.xml"));
     }
 
-    @Test(expected = InvalidCatalogException.class)
+    @Test
     public void getInvalidCatalogNotAnXml(){
-        Catalog catalog = CatalogReader.getCatalog("./src/test/resources/notanxml.txt");
+        assertThrows(InvalidCatalogException.class, () -> CatalogReader.getCatalog("./src/test/resources/notanxml.xml"));
     }
 }

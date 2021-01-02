@@ -11,24 +11,24 @@ import com.lorescianatico.chain.stereotype.AnotherDummyHandler;
 import com.lorescianatico.chain.stereotype.DummyExceptionHandler;
 import com.lorescianatico.chain.stereotype.DummyHandler;
 import com.lorescianatico.chain.util.ConfigType;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ChainExecutorTest {
 
     @Spy
@@ -43,7 +43,7 @@ public class ChainExecutorTest {
     @InjectMocks
     private ChainExecutorBean chainExecutorBean;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         when(loaderFactory.getLoader(any(ConfigType.class))).thenReturn(loader);
     }
@@ -63,7 +63,7 @@ public class ChainExecutorTest {
         }
     }
 
-    @Test(expected = UndefinedChainException.class)
+    @Test
     public void executeUndefinedChain() {
         Map<String, DeclaredChain> map = new HashMap<>();
         DeclaredChain.DeclaredChainBuilder builder = DeclaredChain.builder();
@@ -71,14 +71,10 @@ public class ChainExecutorTest {
         map.put("Chain", builder.build());
         when(loader.loadChain(anyString())).thenReturn(map);
         chainExecutorBean.readCatalog();
-        try {
-            chainExecutorBean.executeChain("UndefinedChain", new AbstractChainContext() {});
-        } catch (ChainExecutionException e) {
-            fail(e.getMessage());
-        }
+        assertThrows(UndefinedChainException.class, () -> chainExecutorBean.executeChain("UndefinedChain", new AbstractChainContext() {}));
     }
 
-    @Test(expected = ChainExecutionException.class)
+    @Test
     public void executeChainWithException() throws Exception{
         Map<String, DeclaredChain> map = new HashMap<>();
         DeclaredChain.DeclaredChainBuilder builder = DeclaredChain.builder();
@@ -87,7 +83,7 @@ public class ChainExecutorTest {
         when(loader.loadChain(anyString())).thenReturn(map);
         chainExecutorBean.readCatalog();
 
-        chainExecutorBean.executeChain("Chain", new AbstractChainContext() {});
+        assertThrows(ChainExecutionException.class, () -> chainExecutorBean.executeChain("Chain", new AbstractChainContext() {}));
 
     }
 }

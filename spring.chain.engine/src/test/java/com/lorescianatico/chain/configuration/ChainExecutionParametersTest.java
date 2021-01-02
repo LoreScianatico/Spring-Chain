@@ -1,9 +1,9 @@
 package com.lorescianatico.chain.configuration;
 
 import com.lorescianatico.chain.util.ConfigType;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
 
 public class ChainExecutionParametersTest {
 
@@ -11,7 +11,7 @@ public class ChainExecutionParametersTest {
     public void getCatalogFileExtension() {
         ChainExecutionParameters chainExecutionParameters = new ChainExecutionParameters();
         chainExecutionParameters.setCatalogFileLocation("file.xml");
-        assertEquals(ConfigType.XML, chainExecutionParameters.getCatalogFileExtension());
+        Assertions.assertEquals(ConfigType.XML, chainExecutionParameters.getCatalogFileExtension());
     }
 
 }
