@@ -77,7 +77,7 @@ class ChainExecutorTest {
     }
 
     @Test
-    void executeChainWithException() throws Exception{
+    void executeChainWithException() {
         Map<String, DeclaredChain> map = new HashMap<>();
         DeclaredChain.DeclaredChainBuilder builder = DeclaredChain.builder();
         builder.handlers(Arrays.asList(new DummyHandler(), new AnotherDummyHandler(), new DummyExceptionHandler()));
