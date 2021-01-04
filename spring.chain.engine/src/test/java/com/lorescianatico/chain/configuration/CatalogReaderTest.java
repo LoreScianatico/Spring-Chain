@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CatalogReaderTest {
 
     @Test
-    public void getCatalog() {
+    void getCatalog() {
         Catalog catalog = CatalogReader.getCatalog("./src/test/resources/configuration.xml");
         assertNotNull(catalog);
         assertNotNull(catalog.getChainList());

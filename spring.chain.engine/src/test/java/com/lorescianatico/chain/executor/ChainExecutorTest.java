@@ -31,8 +31,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class ChainExecutorTest {
 
-    public static final AbstractChainContext ABSTRACT_CHAIN_CONTEXT = new AbstractChainContext() {
-    };
+    public static final AbstractChainContext ABSTRACT_CHAIN_CONTEXT = new AbstractChainContext() {};
 
     @Spy
     private ChainExecutionParameters parameters = ChainExecutionParameters.builder().catalogFileLocation("./src/test/resources/configuration.xml").build();
@@ -74,7 +73,7 @@ class ChainExecutorTest {
         map.put("Chain", builder.build());
         when(loader.loadChain(anyString())).thenReturn(map);
         chainExecutorBean.readCatalog();
-        assertThrows(UndefinedChainException.class, () -> chainExecutorBean.executeChain("UndefinedChain", new AbstractChainContext() {}));
+        assertThrows(UndefinedChainException.class, () -> chainExecutorBean.executeChain("UndefinedChain", ABSTRACT_CHAIN_CONTEXT));
     }
 
     @Test
@@ -86,7 +85,7 @@ class ChainExecutorTest {
         when(loader.loadChain(anyString())).thenReturn(map);
         chainExecutorBean.readCatalog();
 
-        assertThrows(ChainExecutionException.class, () -> chainExecutorBean.executeChain("Chain", new AbstractChainContext() {}));
+        assertThrows(ChainExecutionException.class, () -> chainExecutorBean.executeChain("Chain", ABSTRACT_CHAIN_CONTEXT));
 
     }
 }
