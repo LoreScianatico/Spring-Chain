@@ -19,13 +19,13 @@ import static org.junit.jupiter.api.Assertions.fail;
 @SpringBootTest(classes = {ChainExecutorBean.class, DummyHandler.class, AnotherDummyHandler.class,
         ChainExecutionConfiguration.class, XMLChainLoader.class, LoaderConfig.class},
         properties = {"catalogfile = ./src/test/resources/configuration.xml"})
-public class ChainExecutorIntegrationTest {
+class ChainExecutorIntegrationTest {
 
     @Autowired
     private ChainExecutor chainExecutor;
 
     @Test
-    public void testExecutor(){
+    void testExecutor(){
         try {
             chainExecutor.executeChain("Chain", new AbstractChainContext() {});
         } catch (ChainExecutionException e) {

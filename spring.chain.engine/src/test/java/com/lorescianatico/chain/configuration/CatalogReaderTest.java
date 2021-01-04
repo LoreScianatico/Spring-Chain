@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CatalogReaderTest {
+class CatalogReaderTest {
 
     @Test
     public void getCatalog() {
@@ -24,27 +24,27 @@ public class CatalogReaderTest {
     }
 
     @Test
-    public void getInvalidCatalog() {
+    void getInvalidCatalog() {
         assertThrows(InvalidCatalogException.class, () -> CatalogReader.getCatalog("./src/test/resources/invalidConfiguration.xml"));
     }
 
     @Test
-    public void getInvalidCatalogDuplicateHandler() {
+    void getInvalidCatalogDuplicateHandler() {
         assertThrows(InvalidCatalogException.class, () -> CatalogReader.getCatalog("./src/test/resources/invalidConfigurationDuplicateHandler.xml"));
     }
 
     @Test
-    public void getInvalidCatalogDuplicateChain() {
+    void getInvalidCatalogDuplicateChain() {
         assertThrows(InvalidCatalogException.class, () -> CatalogReader.getCatalog("./src/test/resources/invalidConfigurationDuplicateChain.xml"));
     }
 
     @Test
-    public void getInvalidCatalogNoFileFound(){
+    void getInvalidCatalogNoFileFound(){
         assertThrows(InvalidCatalogException.class, () -> CatalogReader.getCatalog("./src/test/resources/thisdoesnotexists.xml"));
     }
 
     @Test
-    public void getInvalidCatalogNotAnXml(){
+    void getInvalidCatalogNotAnXml(){
         assertThrows(InvalidCatalogException.class, () -> CatalogReader.getCatalog("./src/test/resources/notanxml.xml"));
     }
 }

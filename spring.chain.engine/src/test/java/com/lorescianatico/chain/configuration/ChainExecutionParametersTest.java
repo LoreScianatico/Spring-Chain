@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 
-public class ChainExecutionParametersTest {
+class ChainExecutionParametersTest {
 
     @Test
-    public void getCatalogFileExtension() {
+    void getCatalogFileExtension() {
         ChainExecutionParameters chainExecutionParameters = new ChainExecutionParameters();
         chainExecutionParameters.setCatalogFileLocation("file.xml");
         Assertions.assertEquals(ConfigType.XML, chainExecutionParameters.getCatalogFileExtension());

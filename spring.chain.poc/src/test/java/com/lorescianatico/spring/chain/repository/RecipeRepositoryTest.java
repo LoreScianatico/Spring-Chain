@@ -16,13 +16,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-public class RecipeRepositoryTest {
+class RecipeRepositoryTest {
 
     @Autowired
     private RecipeRepository recipeRepository;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         Recipe recipe = new Recipe("Sample recipe");
         Ingredient ingredient = new Ingredient("Sample ingredient");
         recipe.setIngredients(Collections.singleton(ingredient));
@@ -30,7 +30,7 @@ public class RecipeRepositoryTest {
     }
 
     @Test
-    public void findByName() {
+    void findByName() {
 
         List<Recipe> recipes = recipeRepository.findByName("Sample recipe");
         assertFalse(recipes.isEmpty());
@@ -39,7 +39,7 @@ public class RecipeRepositoryTest {
     }
 
     @Test
-    public void findByNameStartsWith() {
+    void findByNameStartsWith() {
 
         List<Recipe> recipes = recipeRepository.findByNameStartsWith("Sample");
         assertFalse(recipes.isEmpty());

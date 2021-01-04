@@ -7,16 +7,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
-public class ConfigTypeTest {
+class ConfigTypeTest {
 
     @Test
-    public void fromValue() {
+    void fromValue() {
         assertEquals(ConfigType.XML, ConfigType.fromValue("XML"));
         assertEquals(ConfigType.XML, ConfigType.fromValue("xml"));
     }
 
     @Test
-    public void unknownValue() {
+    void unknownValue() {
         assertThrows(InvalidCatalogException.class, () -> ConfigType.fromValue("unknownextension"));
     }
 }

@@ -13,7 +13,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class XMLChainLoaderTest {
+class XMLChainLoaderTest {
 
     private XMLChainLoader xmlChainLoader;
 
@@ -25,7 +25,7 @@ public class XMLChainLoaderTest {
     }
 
     @Test
-    public void loadChain() {
+    void loadChain() {
         Map<String, DeclaredChain> chainMap = xmlChainLoader.loadChain("./src/test/resources/configuration.xml");
         assertEquals(2, chainMap.size());
         assertNotNull(chainMap.get("Chain"));
@@ -35,7 +35,7 @@ public class XMLChainLoaderTest {
     }
 
     @Test
-    public void testUndefinedHandler(){
+    void testUndefinedHandler(){
         assertThrows(UndefinedHandlerException.class, () ->xmlChainLoader.loadChain("./src/test/resources/configurationWithUnknownHandler.xml"));
     }
 }

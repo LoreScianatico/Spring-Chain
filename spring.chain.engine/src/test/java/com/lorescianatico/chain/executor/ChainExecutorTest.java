@@ -29,7 +29,10 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ChainExecutorTest {
+class ChainExecutorTest {
+
+    public static final AbstractChainContext ABSTRACT_CHAIN_CONTEXT = new AbstractChainContext() {
+    };
 
     @Spy
     private ChainExecutionParameters parameters = ChainExecutionParameters.builder().catalogFileLocation("./src/test/resources/configuration.xml").build();
@@ -44,12 +47,12 @@ public class ChainExecutorTest {
     private ChainExecutorBean chainExecutorBean;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         when(loaderFactory.getLoader(any(ConfigType.class))).thenReturn(loader);
     }
 
     @Test
-    public void executeChain() {
+    void executeChain() {
         Map<String, DeclaredChain> map = new HashMap<>();
         DeclaredChain.DeclaredChainBuilder builder = DeclaredChain.builder();
         builder.handlers(Arrays.asList(new DummyHandler(), new AnotherDummyHandler()));
@@ -57,14 +60,14 @@ public class ChainExecutorTest {
         when(loader.loadChain(anyString())).thenReturn(map);
         chainExecutorBean.readCatalog();
         try {
-            chainExecutorBean.executeChain("Chain", new AbstractChainContext() {});
+            chainExecutorBean.executeChain("Chain", ABSTRACT_CHAIN_CONTEXT);
         } catch (ChainExecutionException e) {
             fail(e.getMessage());
         }
     }
 
     @Test
-    public void executeUndefinedChain() {
+    void executeUndefinedChain() {
         Map<String, DeclaredChain> map = new HashMap<>();
         DeclaredChain.DeclaredChainBuilder builder = DeclaredChain.builder();
         builder.handlers(Arrays.asList(new DummyHandler(), new AnotherDummyHandler()));
@@ -75,7 +78,7 @@ public class ChainExecutorTest {
     }
 
     @Test
-    public void executeChainWithException() throws Exception{
+    void executeChainWithException() throws Exception{
         Map<String, DeclaredChain> map = new HashMap<>();
         DeclaredChain.DeclaredChainBuilder builder = DeclaredChain.builder();
         builder.handlers(Arrays.asList(new DummyHandler(), new AnotherDummyHandler(), new DummyExceptionHandler()));

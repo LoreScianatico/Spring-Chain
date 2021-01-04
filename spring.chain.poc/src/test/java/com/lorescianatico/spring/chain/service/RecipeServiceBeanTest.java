@@ -24,7 +24,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class RecipeServiceBeanTest {
+class RecipeServiceBeanTest {
 
     @Mock
     private RecipeRepository recipeRepository;
@@ -34,14 +34,14 @@ public class RecipeServiceBeanTest {
     private Recipe recipe;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         recipe = new Recipe("Sample");
-        recipe.setId(1l);
-        recipe.setVersion(1l);
+        recipe.setId(1L);
+        recipe.setVersion(1L);
         recipe.setDirections("Some directions over here");
         Ingredient ingredient = new Ingredient("Sample");
-        ingredient.setId(1l);
-        ingredient.setVersion(1l);
+        ingredient.setId(1L);
+        ingredient.setVersion(1L);
         ingredient.setDescription("Description");
         ingredient.setRecipe(recipe);
         recipe.setIngredients(Collections.singleton(ingredient));
@@ -52,17 +52,17 @@ public class RecipeServiceBeanTest {
     }
 
     @Test
-    public void save() {
+    void save() {
         when(recipeRepository.save(any(Recipe.class))).then(invocationOnMock -> invocationOnMock.getArgument(0));
         RecipeDto recipeDto = new RecipeDto();
         recipeDto.setName("Sample");
-        recipeDto.setId(1l);
-        recipeDto.setVersion(1l);
+        recipeDto.setId(1L);
+        recipeDto.setVersion(1L);
         recipeDto.setDirections("Some directions over here");
         IngredientDto ingredient = new IngredientDto();
         ingredient.setName("Sample");
-        ingredient.setId(1l);
-        ingredient.setVersion(1l);
+        ingredient.setId(1L);
+        ingredient.setVersion(1L);
         ingredient.setDescription("Description");
         recipeDto.setIngredients(Collections.singletonList(ingredient));
 
@@ -70,19 +70,19 @@ public class RecipeServiceBeanTest {
     }
 
     @Test
-    public void getById() {
+    void getById() {
         when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe));
-        RecipeDto recipeDto = recipeServiceBean.getById(1l);
+        RecipeDto recipeDto = recipeServiceBean.getById(1L);
         assertNotNull(recipeDto);
 
     }
 
     @Test
-    public void patch() {
+    void patch() {
     }
 
     @Test
-    public void findByName() {
+    void findByName() {
 
         when(recipeRepository.findByNameStartsWith(anyString())).thenReturn(Collections.singletonList(recipe));
         List<RecipeDto> recipeDtos = recipeServiceBean.findByName("name");
