@@ -1,0 +1,10 @@
+chain-of-responsibility:
+  chain-definitions:
+    - chain-name: Chain
+      handlers:
+        - com.lorescianatico.chain.stereotype.DummyHandler
+        - com.lorescianatico.chain.stereotype.AnotherDummyHandler
+    - chain-name: Chain2
+      handlers:
+        - com.lorescianatico.chain.stereotype.DummyHandler
+        - com.lorescianatico.chain.stereotype.AnotherDummyHandler

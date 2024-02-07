@@ -1,18 +1,20 @@
 package com.lorescianatico.chain.executor;
 
-import com.lorescianatico.chain.configuration.ChainExecutionParameters;
+import com.lorescianatico.chain.configuration.ChainCatalog;
+import com.lorescianatico.chain.configuration.ChainDefinition;
 import com.lorescianatico.chain.context.AbstractChainContext;
 import com.lorescianatico.chain.executable.DeclaredChain;
 import com.lorescianatico.chain.executable.DeclaredHandler;
 import com.lorescianatico.chain.fault.ChainExecutionException;
 import com.lorescianatico.chain.fault.UndefinedChainException;
-import com.lorescianatico.chain.servicelocator.LoaderFactory;
+import com.lorescianatico.chain.fault.UndefinedHandlerException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,26 +22,19 @@ import java.util.Map;
  */
 @Slf4j
 @Component
+@EnableConfigurationProperties({ChainCatalog.class, ChainDefinition.class})
 public final class ChainExecutorBean implements ChainExecutor {
 
-    /**
-     * The chain execution parameters
-     */
-    @Autowired
-    private ChainExecutionParameters parameters;
+    private final ChainCatalog chainCatalog;
 
-    @Autowired
-    private LoaderFactory loaderFactory;
+    private final Map<String, DeclaredHandler> handlerMap = new HashMap<>();
 
-    private Map<String, DeclaredChain> chainMap = new HashMap<>();
+    private final Map<String, DeclaredChain> chainMap = new HashMap<>();
 
-    /**
-     * Reads and loads the catalog
-     */
-    @PostConstruct
-    void readCatalog(){
-        chainMap.clear();
-        chainMap.putAll(loaderFactory.getLoader(parameters.getCatalogFileExtension()).loadChain(parameters.getCatalogFileLocation()));
+    public ChainExecutorBean(ChainCatalog chainCatalog, List<DeclaredHandler> handlers) {
+        this.chainCatalog = chainCatalog;
+        handlers.forEach(handler -> handlerMap.put(handler.getClass().getName(), handler));
+        chainMap.putAll(loadChain());
     }
 
     /**
@@ -81,4 +76,44 @@ public final class ChainExecutorBean implements ChainExecutor {
         chainContext.setLastExecutedHandler(handlerName);
     }
 
+    public Map<String, DeclaredChain> loadChain() {
+        Map<String,DeclaredChain> chainMap = new HashMap<>();
+
+        chainCatalog.getChainDefinitions().forEach(chain -> {
+            String chainName = chain.getChainName();
+            List<DeclaredHandler> chainHandlers = getChainHandlers(chain.getHandlers());
+            logger.info("Loaded chain: {}", chainName);
+            chainMap.put(chainName, new DeclaredChain(chainHandlers));
+        });
+
+        return chainMap;
+    }
+
+    private List<DeclaredHandler> getChainHandlers(List<String> handlerList) {
+        List<DeclaredHandler> chainHandlers = new ArrayList<>();
+
+        handlerList.forEach(handler -> {
+            DeclaredHandler declaredHandler = findHandlerByName(handler);
+            chainHandlers.add(declaredHandler);
+        });
+
+        logger.debug("Loaded {} handlers.", chainHandlers.size());
+
+        return  chainHandlers;
+    }
+
+    /**
+     * Gets the handler implementation based on configured name
+     * @param value the handler to be found
+     * @return the actual handler implementation
+     */
+    private DeclaredHandler findHandlerByName(String value) {
+
+        if(handlerMap.containsKey(value)){
+            logger.debug("Handler found: {}", value);
+            return handlerMap.get(value);
+        }
+        logger.error("No handler with name {}", value);
+        throw new UndefinedHandlerException("No handler with name " + value);
+    }
 }
