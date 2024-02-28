@@ -5,7 +5,7 @@ import com.lorescianatico.chain.context.AbstractChainContext;
 /**
  * Chain DeclaredHandler interface
  */
-public interface DeclaredHandler {
+public interface Handler {
 
     /**
      * Executes the handler on the context

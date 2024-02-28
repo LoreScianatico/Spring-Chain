@@ -3,7 +3,7 @@ package com.lorescianatico.chain.executor;
 import com.lorescianatico.chain.configuration.ChainCatalog;
 import com.lorescianatico.chain.configuration.ChainDefinition;
 import com.lorescianatico.chain.context.AbstractChainContext;
-import com.lorescianatico.chain.executable.DeclaredHandler;
+import com.lorescianatico.chain.executable.Handler;
 import com.lorescianatico.chain.fault.ChainExecutionException;
 import com.lorescianatico.chain.fault.UndefinedChainException;
 import com.lorescianatico.chain.stereotype.AnotherDummyHandler;
@@ -24,23 +24,23 @@ class ChainExecutorTest {
 
     public static final AbstractChainContext ABSTRACT_CHAIN_CONTEXT = new AbstractChainContext() {};
 
-    private final List<DeclaredHandler> list = List.of(new DummyHandler(), new AnotherDummyHandler(), new DummyExceptionHandler());
+    private final List<Handler> list = List.of(new DummyHandler(), new AnotherDummyHandler(), new DummyExceptionHandler());
 
-    private ChainExecutorBean chainExecutorBean;
+    private ChainExecutorImpl chainExecutorImpl;
 
     @BeforeEach
     void setUp() {
 
-        ChainDefinition chainDefinition1 = new ChainDefinition("Chain", List.of("com.lorescianatico.chain.stereotype.DummyHandler", "com.lorescianatico.chain.stereotype.AnotherDummyHandler"));
-        ChainDefinition chainDefinition2 = new ChainDefinition("ChainWithException", List.of("com.lorescianatico.chain.stereotype.DummyHandler", "com.lorescianatico.chain.stereotype.DummyExceptionHandler"));
+        ChainDefinition chainDefinition1 = new ChainDefinition("Chain", List.of(new DummyHandler(), new AnotherDummyHandler()));
+        ChainDefinition chainDefinition2 = new ChainDefinition("ChainWithException", List.of(new DummyHandler(), new AnotherDummyHandler(), new DummyExceptionHandler()));
         ChainCatalog chainCatalog = new ChainCatalog(List.of(chainDefinition1, chainDefinition2));
-        chainExecutorBean = new ChainExecutorBean(chainCatalog, list);
+        chainExecutorImpl = new ChainExecutorImpl(chainCatalog);
     }
 
     @Test
     void executeChain() {
         try {
-            chainExecutorBean.executeChain("Chain", ABSTRACT_CHAIN_CONTEXT);
+            chainExecutorImpl.executeChain("Chain", ABSTRACT_CHAIN_CONTEXT);
         } catch (ChainExecutionException e) {
             fail(e.getMessage());
         }
@@ -48,13 +48,13 @@ class ChainExecutorTest {
 
     @Test
     void executeUndefinedChain() {
-        assertThrows(UndefinedChainException.class, () -> chainExecutorBean.executeChain("UndefinedChain", ABSTRACT_CHAIN_CONTEXT));
+        assertThrows(UndefinedChainException.class, () -> chainExecutorImpl.executeChain("UndefinedChain", ABSTRACT_CHAIN_CONTEXT));
     }
 
     @Test
     void executeChainWithException() {
 
-        assertThrows(ChainExecutionException.class, () -> chainExecutorBean.executeChain("ChainWithException", ABSTRACT_CHAIN_CONTEXT));
+        assertThrows(ChainExecutionException.class, () -> chainExecutorImpl.executeChain("ChainWithException", ABSTRACT_CHAIN_CONTEXT));
 
     }
 }
