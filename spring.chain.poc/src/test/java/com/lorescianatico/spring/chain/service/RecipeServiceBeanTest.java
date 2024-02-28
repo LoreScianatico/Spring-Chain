@@ -16,7 +16,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -77,17 +76,13 @@ class RecipeServiceBeanTest {
 
     }
 
-    @Test
-    void patch() {
-    }
 
     @Test
     void findByName() {
 
-        when(recipeRepository.findByNameStartsWith(anyString())).thenReturn(Collections.singletonList(recipe));
-        List<RecipeDto> recipeDtos = recipeServiceBean.findByName("name");
+        when(recipeRepository.findByName(anyString())).thenReturn(Optional.of(new Recipe()));
+        RecipeDto recipeDtos = recipeServiceBean.findByName("name");
         assertNotNull(recipeDtos);
-        assertNotNull(recipeDtos.get(0));
 
     }
 }

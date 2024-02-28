@@ -10,9 +10,7 @@ public interface RecipeService {
 
     RecipeDto getById(Long id);
 
-    RecipeDto patch(RecipeDto recipeDto);
-
-    List<RecipeDto> findByName(String name);
+    RecipeDto findByName(String name);
 
     List<RecipeDto> getAllRecipes();
 }

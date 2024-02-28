@@ -8,6 +8,7 @@ import com.lorescianatico.spring.chain.repository.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@Transactional
 public class RecipeServiceBean implements RecipeService {
 
     @Autowired
@@ -26,8 +28,8 @@ public class RecipeServiceBean implements RecipeService {
     @Override
     public void save(RecipeDto recipeDto) {
         Recipe recipe = recipeMapper.recipeDtoToRecipe(recipeDto);
-        recipeRepository.save(recipe);
-        logger.info("Saved recipe.");
+        recipe = recipeRepository.save(recipe);
+        logger.info("Saved recipe: {}.", recipe.getName());
     }
 
     @Override
@@ -41,18 +43,15 @@ public class RecipeServiceBean implements RecipeService {
     }
 
     @Override
-    public RecipeDto patch(RecipeDto recipeDto) {
-        Recipe recipe = recipeMapper.recipeDtoToRecipe(recipeDto);
-        Recipe patched = recipeRepository.save(recipe);
-        logger.info("Patched recipe.");
-        return recipeMapper.recipeToRecipeDto(patched);
-    }
-
-    @Override
-    public List<RecipeDto> findByName(String name){
-        List<Recipe> recipes = recipeRepository.findByNameStartsWith(name);
-        logger.info("Found {} recipe(s).", recipes.size());
-        return recipes.stream().map(recipeMapper::recipeToRecipeDto).collect(Collectors.toList());
+    public RecipeDto findByName(String name){
+        Optional<Recipe> recipe = recipeRepository.findByName(name);
+        return recipe.map(item -> {
+            logger.info("Found recipe: {}.", item.getName());
+            return recipeMapper.recipeToRecipeDto(item);
+        }).orElseThrow(() -> {
+            logger.warn("No recipe found with name: {}", name);
+            return new NotFoundException();
+        });
     }
 
     @Override

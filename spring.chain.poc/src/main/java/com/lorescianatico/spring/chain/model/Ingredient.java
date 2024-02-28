@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 @Table(name = "INGREDIENTS", indexes = {@Index(name="INGREDIENTS_NAME_IDX", columnList = "NAME")})
 @Data
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(of = {"name"}, callSuper = false)
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class Ingredient extends AbstractEntity {

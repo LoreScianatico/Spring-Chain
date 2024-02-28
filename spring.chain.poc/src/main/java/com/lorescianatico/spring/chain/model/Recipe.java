@@ -10,7 +10,7 @@ import java.util.Set;
 @Entity
 @Table(name = "RECIPES", indexes = {@Index(name="RECIPES_NAME_IDX", columnList = "NAME")})
 @Data
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(of = {"name"}, callSuper = false)
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class Recipe extends AbstractEntity{

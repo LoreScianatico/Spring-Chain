@@ -3,11 +3,12 @@ package com.lorescianatico.spring.chain.controller;
 import com.lorescianatico.spring.chain.dto.RecipeDto;
 import com.lorescianatico.spring.chain.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
+
+@RestController
 @RequestMapping("recipe")
 public class RecipeController {
 
@@ -15,36 +16,25 @@ public class RecipeController {
     private RecipeService recipeService;
 
     @PostMapping
-    public String saveRecipe(@ModelAttribute RecipeDto recipeDto){return null;}
-
-    @GetMapping("{id}")
-    public String getRecipeById(@PathVariable Long id, Model model){
-        return null;
+    public ResponseEntity<Void> saveRecipe(@RequestBody RecipeDto recipeDto){
+        recipeService.save(recipeDto);
+        return ResponseEntity.ok().build();
     }
 
-    @PatchMapping
-    public String patchRecipe(@ModelAttribute RecipeDto recipeDto){
-        return null;
+    @GetMapping("{id}")
+    public RecipeDto getRecipeById(@PathVariable Long id){
+        return recipeService.getById(id);
     }
 
     @GetMapping("{name}")
-    public String getByName(@PathVariable String name, Model model){
-        return null;
+    public RecipeDto getByName(@PathVariable String name){
+        return recipeService.findByName(name);
     }
 
     @GetMapping("all")
-    public String getAllRecipes(Model model){
+    public List<RecipeDto> getAllRecipes(){
 
-        model.addAttribute("recipes", recipeService.getAllRecipes());
-        return "index";
-
-    }
-
-    @GetMapping("new")
-    public String getEmptyRecipe(Model model){
-
-        model.addAttribute("recipe",new RecipeDto());
-        return "recipe/recipeform";
+        return recipeService.getAllRecipes();
 
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,9 +33,8 @@ class RecipeRepositoryTest {
     @Test
     void findByName() {
 
-        List<Recipe> recipes = recipeRepository.findByName("Sample recipe");
+        Optional<Recipe> recipes = recipeRepository.findByName("Sample recipe");
         assertFalse(recipes.isEmpty());
-        assertEquals(1, recipes.size());
 
     }
 

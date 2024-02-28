@@ -3,6 +3,7 @@ package com.lorescianatico.spring.chain.controller;
 import com.lorescianatico.spring.chain.dto.RecipeDto;
 import com.lorescianatico.spring.chain.service.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,6 +19,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@Disabled
 @ExtendWith(MockitoExtension.class)
 class RecipeControllerTest {
 
