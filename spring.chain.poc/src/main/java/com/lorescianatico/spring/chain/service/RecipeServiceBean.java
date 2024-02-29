@@ -9,6 +9,7 @@ import com.lorescianatico.spring.chain.model.Recipe;
 import com.lorescianatico.spring.chain.repository.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 public class RecipeServiceBean implements RecipeService {
 
     @Autowired
+    @Lazy
     private RecipeRepository recipeRepository;
 
     @Autowired
