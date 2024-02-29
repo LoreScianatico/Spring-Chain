@@ -5,8 +5,10 @@ import com.lorescianatico.chain.stereotype.ChainHandler;
 import com.lorescianatico.spring.chain.dto.IngredientDto;
 import com.lorescianatico.spring.chain.mapper.IngredientMapper;
 import com.lorescianatico.spring.chain.model.Ingredient;
+import com.lorescianatico.spring.chain.repository.IngredientRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 
 import java.util.List;
 import java.util.Set;
@@ -18,11 +20,15 @@ public class IngredientMapperHandler implements Handler<RecipeSavingContext> {
     @Autowired
     private IngredientMapper ingredientMapper;
 
+    @Autowired
+    @Lazy
+    private IngredientRepository ingredientRepository;
+
     @Override
     public void execute(RecipeSavingContext context) {
 
         List<IngredientDto> dtos = context.getRecipeDto().getIngredients();
-        Set<Ingredient> ingredients = context.getRecipe().getIngredients();
+        List<Ingredient> ingredients = ingredientRepository.findAll();
 
         dtos.forEach(item -> {
             Ingredient match = ingredients.stream()
@@ -33,7 +39,7 @@ public class IngredientMapperHandler implements Handler<RecipeSavingContext> {
                         return new Ingredient();
                     });
             match = ingredientMapper.toEntity(item, match);
-            match.setRecipe(context.getRecipe());
+            match.addRecipe(context.getRecipe());
             ingredients.add(match);
         });
 

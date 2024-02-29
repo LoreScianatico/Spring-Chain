@@ -24,7 +24,7 @@ public interface RecipeMapper {
 
     @AfterMapping
     default void linkObjects(@MappingTarget Recipe recipe){
-        recipe.getIngredients().forEach(item -> item.setRecipe(recipe));
+        recipe.getIngredients().forEach(item -> item.addRecipe(recipe));
     }
 
 }

@@ -24,6 +24,14 @@ public class Recipe extends AbstractEntity{
     @Column(name = "DIRECTIONS")
     private String directions;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "recipe")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "recipe_ingredient",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
     private Set<Ingredient> ingredients = new HashSet<>();
+
+    public void addIngredient(Ingredient ingredient){
+        ingredients.add(ingredient);
+        ingredient.getRecipe().add(this);
+    }
 }

@@ -5,6 +5,9 @@ import lombok.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "INGREDIENTS", indexes = {@Index(name="INGREDIENTS_NAME_IDX", columnList = "NAME")})
 @Data
@@ -21,7 +24,12 @@ public class Ingredient extends AbstractEntity {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @ManyToOne
-    private Recipe recipe;
+    @ManyToMany(mappedBy = "ingredients")
+    private Set<Recipe> recipe = new HashSet<>();
+
+    public void addRecipe(Recipe recipe){
+        this.recipe.add(recipe);
+        recipe.getIngredients().add(this);
+    }
 
 }

@@ -48,7 +48,7 @@ class RecipeServiceBeanTest {
         ingredient.setId(1L);
         ingredient.setVersion(1L);
         ingredient.setDescription("Description");
-        ingredient.setRecipe(recipe);
+        ingredient.addRecipe(recipe);
         recipe.setIngredients(Collections.singleton(ingredient));
         RecipeMapper recipeMapper = Mappers.getMapper(RecipeMapper.class);
         IngredientMapper ingredientMapper = Mappers.getMapper(IngredientMapper.class);
