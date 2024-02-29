@@ -24,7 +24,7 @@ public class ChainDefinitionConverter implements Converter<String, Handler> {
     }
 
     @Override
-    public Handler convert(String source) {
+    public Handler<?> convert(String source) {
         return Optional.ofNullable(handlerMap.get(source))
                 .orElseThrow(() -> {
                     logger.error("Cannot find handler: {}", source);

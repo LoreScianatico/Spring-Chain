@@ -1,15 +1,14 @@
 package com.lorescianatico.chain.stereotype;
 
-import com.lorescianatico.chain.context.AbstractChainContext;
 import com.lorescianatico.chain.executable.Handler;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ChainHandler
-public class AnotherDummyHandler implements Handler {
+public class AnotherDummyHandler implements Handler<DummyContext> {
 
     @Override
-    public <T extends AbstractChainContext> void execute(T context) {
+    public void execute(DummyContext context) {
         logger.info("Executing another dummy handler.");
     }
 

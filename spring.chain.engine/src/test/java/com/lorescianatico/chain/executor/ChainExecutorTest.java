@@ -7,6 +7,7 @@ import com.lorescianatico.chain.executable.Handler;
 import com.lorescianatico.chain.fault.ChainExecutionException;
 import com.lorescianatico.chain.fault.UndefinedChainException;
 import com.lorescianatico.chain.stereotype.AnotherDummyHandler;
+import com.lorescianatico.chain.stereotype.DummyContext;
 import com.lorescianatico.chain.stereotype.DummyExceptionHandler;
 import com.lorescianatico.chain.stereotype.DummyHandler;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,8 +22,6 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 @ExtendWith(MockitoExtension.class)
 class ChainExecutorTest {
-
-    public static final AbstractChainContext ABSTRACT_CHAIN_CONTEXT = new AbstractChainContext() {};
 
     private final List<Handler> list = List.of(new DummyHandler(), new AnotherDummyHandler(), new DummyExceptionHandler());
 
@@ -40,7 +39,7 @@ class ChainExecutorTest {
     @Test
     void executeChain() {
         try {
-            chainExecutorImpl.executeChain("Chain", ABSTRACT_CHAIN_CONTEXT);
+            chainExecutorImpl.executeChain("Chain", new DummyContext());
         } catch (ChainExecutionException e) {
             fail(e.getMessage());
         }
@@ -48,13 +47,13 @@ class ChainExecutorTest {
 
     @Test
     void executeUndefinedChain() {
-        assertThrows(UndefinedChainException.class, () -> chainExecutorImpl.executeChain("UndefinedChain", ABSTRACT_CHAIN_CONTEXT));
+        assertThrows(UndefinedChainException.class, () -> chainExecutorImpl.executeChain("UndefinedChain", new DummyContext()));
     }
 
     @Test
     void executeChainWithException() {
 
-        assertThrows(ChainExecutionException.class, () -> chainExecutorImpl.executeChain("ChainWithException", ABSTRACT_CHAIN_CONTEXT));
+        assertThrows(ChainExecutionException.class, () -> chainExecutorImpl.executeChain("ChainWithException", new DummyContext()));
 
     }
 }

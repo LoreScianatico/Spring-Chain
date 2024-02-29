@@ -6,6 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.boot.context.properties.bind.ConstructorBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -18,6 +19,7 @@ public class ChainCatalog {
 
     @ConstructorBinding
     public ChainCatalog(List<ChainDefinition> chainDefinitions) {
-        this.chainDefinitions = chainDefinitions;
+        this.chainDefinitions = chainDefinitions != null ? chainDefinitions : new ArrayList<>();
     }
+
 }

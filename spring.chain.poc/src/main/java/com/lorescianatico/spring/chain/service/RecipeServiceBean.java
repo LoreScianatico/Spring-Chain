@@ -1,5 +1,7 @@
 package com.lorescianatico.spring.chain.service;
 
+import com.lorescianatico.chain.executor.ChainExecutor;
+import com.lorescianatico.spring.chain.chain.RecipeSavingContext;
 import com.lorescianatico.spring.chain.dto.RecipeDto;
 import com.lorescianatico.spring.chain.fault.NotFoundException;
 import com.lorescianatico.spring.chain.mapper.RecipeMapper;
@@ -25,9 +27,15 @@ public class RecipeServiceBean implements RecipeService {
     @Autowired
     private RecipeMapper recipeMapper;
 
+    @Autowired
+    private ChainExecutor chainExecutor;
+
     @Override
     public void save(RecipeDto recipeDto) {
-        Recipe recipe = recipeMapper.recipeDtoToRecipe(recipeDto);
+        RecipeSavingContext recipeSavingContext = new RecipeSavingContext();
+        recipeSavingContext.setRecipeDto(recipeDto);
+        chainExecutor.executeChain("recipe-saving-chain", recipeSavingContext);
+        Recipe recipe = recipeSavingContext.getRecipe();
         recipe = recipeRepository.save(recipe);
         logger.info("Saved recipe: {}.", recipe.getName());
     }
@@ -36,7 +44,7 @@ public class RecipeServiceBean implements RecipeService {
     public RecipeDto getById(Long id) {
         Optional<Recipe> recipe = recipeRepository.findById(id);
         logger.info("Returning recipe.");
-        return recipeMapper.recipeToRecipeDto(recipe.orElseThrow(() -> {
+        return recipeMapper.toDto(recipe.orElseThrow(() -> {
             logger.warn("No recipe found with id: {}", id);
             return new NotFoundException();
         }));
@@ -47,7 +55,7 @@ public class RecipeServiceBean implements RecipeService {
         Optional<Recipe> recipe = recipeRepository.findByName(name);
         return recipe.map(item -> {
             logger.info("Found recipe: {}.", item.getName());
-            return recipeMapper.recipeToRecipeDto(item);
+            return recipeMapper.toDto(item);
         }).orElseThrow(() -> {
             logger.warn("No recipe found with name: {}", name);
             return new NotFoundException();
@@ -58,6 +66,6 @@ public class RecipeServiceBean implements RecipeService {
     public List<RecipeDto> getAllRecipes() {
         List<Recipe> recipes = recipeRepository.findAll();
         logger.info("Found {} recipe(s).", recipes.size());
-        return recipes.stream().map(recipeMapper::recipeToRecipeDto).collect(Collectors.toList());
+        return recipes.stream().map(recipeMapper::toDto).collect(Collectors.toList());
     }
 }

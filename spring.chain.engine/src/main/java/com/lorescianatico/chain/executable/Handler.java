@@ -5,13 +5,13 @@ import com.lorescianatico.chain.context.AbstractChainContext;
 /**
  * Chain DeclaredHandler interface
  */
-public interface Handler {
+public interface Handler<T extends AbstractChainContext> {
 
     /**
      * Executes the handler on the context
      * @param context the context to process
      * @param <T> the concrete context class
      */
-    <T extends AbstractChainContext> void execute(T context);
+     void execute(T context);
 
 }

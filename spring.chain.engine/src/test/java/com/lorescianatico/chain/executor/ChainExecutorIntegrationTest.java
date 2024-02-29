@@ -5,6 +5,7 @@ import com.lorescianatico.chain.configuration.ChainDefinitionConverter;
 import com.lorescianatico.chain.context.AbstractChainContext;
 import com.lorescianatico.chain.fault.ChainExecutionException;
 import com.lorescianatico.chain.stereotype.AnotherDummyHandler;
+import com.lorescianatico.chain.stereotype.DummyContext;
 import com.lorescianatico.chain.stereotype.DummyHandler;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +27,7 @@ class ChainExecutorIntegrationTest {
     @Test
     void testExecutor(){
         try {
-            chainExecutor.executeChain("Chain", new AbstractChainContext() {});
+            chainExecutor.executeChain("Chain", new DummyContext());
         } catch (ChainExecutionException e) {
             fail();
         }

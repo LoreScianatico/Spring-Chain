@@ -3,7 +3,7 @@ package com.lorescianatico.chain.fault;
 /**
  * Generic exception for chain processing errors
  */
-public class ChainExecutionException extends Exception {
+public class ChainExecutionException extends RuntimeException {
 
     /**
      * Constructor

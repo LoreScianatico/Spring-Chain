@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @EnableConfigurationProperties({ChainCatalog.class, ChainDefinition.class})
-public final class ChainExecutorImpl implements ChainExecutor {
+final class ChainExecutorImpl implements ChainExecutor {
 
     private final Map<String, ChainDefinition> chainMap;
 
@@ -38,7 +38,7 @@ public final class ChainExecutorImpl implements ChainExecutor {
      * @throws ChainExecutionException if an handler throws an exception
      */
     @Override
-    public <T extends AbstractChainContext> void executeChain(String chainName, T chainContext) throws ChainExecutionException {
+    public <T extends AbstractChainContext> void executeChain(String chainName, T chainContext) {
 
         if (!chainMap.containsKey(chainName)){
             logger.error("Undefined chain: {}", chainName);
@@ -60,7 +60,7 @@ public final class ChainExecutorImpl implements ChainExecutor {
         logger.info("Execution completed.");
     }
 
-    private <T extends AbstractChainContext> void executeHandler(Handler handler, T chainContext) {
+    private <T extends AbstractChainContext> void executeHandler(Handler<T> handler, T chainContext) {
         String handlerName = handler.getClass().getName();
         logger.debug("Executing handler: {}", handlerName);
         chainContext.setLastRunningHandler(handlerName);

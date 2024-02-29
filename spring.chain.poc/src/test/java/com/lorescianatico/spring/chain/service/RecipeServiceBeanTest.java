@@ -1,7 +1,9 @@
 package com.lorescianatico.spring.chain.service;
 
+import com.lorescianatico.chain.executor.ChainExecutor;
 import com.lorescianatico.spring.chain.dto.IngredientDto;
 import com.lorescianatico.spring.chain.dto.RecipeDto;
+import com.lorescianatico.spring.chain.mapper.IngredientMapper;
 import com.lorescianatico.spring.chain.mapper.RecipeMapper;
 import com.lorescianatico.spring.chain.model.Ingredient;
 import com.lorescianatico.spring.chain.model.Recipe;
@@ -10,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -28,6 +31,9 @@ class RecipeServiceBeanTest {
     @Mock
     private RecipeRepository recipeRepository;
 
+    @Mock
+    private ChainExecutor chainExecutor;
+
     @InjectMocks
     private RecipeServiceBean recipeServiceBean;
     private Recipe recipe;
@@ -44,7 +50,10 @@ class RecipeServiceBeanTest {
         ingredient.setDescription("Description");
         ingredient.setRecipe(recipe);
         recipe.setIngredients(Collections.singleton(ingredient));
-        ReflectionTestUtils.setField(recipeServiceBean, "recipeMapper", Mappers.getMapper(RecipeMapper.class));
+        RecipeMapper recipeMapper = Mappers.getMapper(RecipeMapper.class);
+        IngredientMapper ingredientMapper = Mappers.getMapper(IngredientMapper.class);
+        ReflectionTestUtils.setField(recipeMapper, "ingredientMapper", ingredientMapper);
+        ReflectionTestUtils.setField(recipeServiceBean, "recipeMapper", recipeMapper);
 
 
 
@@ -52,7 +61,7 @@ class RecipeServiceBeanTest {
 
     @Test
     void save() {
-        when(recipeRepository.save(any(Recipe.class))).then(invocationOnMock -> invocationOnMock.getArgument(0));
+        when(recipeRepository.save(ArgumentMatchers.isNull())).thenReturn(new Recipe());
         RecipeDto recipeDto = new RecipeDto();
         recipeDto.setName("Sample");
         recipeDto.setId(1L);

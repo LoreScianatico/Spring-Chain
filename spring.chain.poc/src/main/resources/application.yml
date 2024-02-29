@@ -1,3 +1,11 @@
 spring:
   jpa:
     open-in-view: false
+
+chain-of-responsibility:
+  chain-definitions:
+    - chain-name: recipe-saving-chain
+      handlers:
+        - com.lorescianatico.spring.chain.chain.RecipeRetrieverHandler
+        - com.lorescianatico.spring.chain.chain.RecipeMapperHandler
+        - com.lorescianatico.spring.chain.chain.IngredientMapperHandler
