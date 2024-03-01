@@ -28,7 +28,7 @@ public class IngredientMapperHandler implements Handler<RecipeSavingContext> {
     public void execute(RecipeSavingContext context) {
 
         List<IngredientDto> dtos = context.getRecipeDto().getIngredients();
-        List<Ingredient> ingredients = ingredientRepository.findAll();
+        List<Ingredient> ingredients = ingredientRepository.findByNameIn(dtos.stream().map(IngredientDto::getName).toList());
 
         dtos.forEach(item -> {
             Ingredient match = ingredients.stream()
